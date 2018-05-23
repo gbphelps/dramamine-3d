@@ -93,18 +93,45 @@ scene.add( cube );
 
 
 
-
-
-
-
-
-
 camera.position.z = 5;
 
+
+
+let accel = {
+  x: 0,
+  y: 0,
+  z: 0
+}
+
+let vel = {
+  x: 0,
+  y: 0,
+  z: 0
+}
+
+let pos = {
+  x:0,
+  y:0,
+  z:0
+}
+
+
+
+
+
 function animate() {
+
 	requestAnimationFrame( animate );
-  if (__WEBPACK_IMPORTED_MODULE_1__controls__["a" /* controls */].up) cube.rotation.x += 0.01;
-  if (__WEBPACK_IMPORTED_MODULE_1__controls__["a" /* controls */].down) cube.rotation.y += 0.01;
+
+  if (__WEBPACK_IMPORTED_MODULE_1__controls__["a" /* controls */].up){
+    vel.y += .0006}
+  if (__WEBPACK_IMPORTED_MODULE_1__controls__["a" /* controls */].down){
+    vel.y += -.0006}
+
+    vel.y -=.0001
+
+
+  cube.translateY(vel.y);
 
 	renderer.render( scene, camera );
 }
