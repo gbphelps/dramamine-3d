@@ -1,0 +1,16 @@
+{
+  "name": "MyGame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "webpack": "webpack --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "three": "^0.92.0",
+    "webpack": "3.11.0"
+  }
+}
