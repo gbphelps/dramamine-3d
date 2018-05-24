@@ -1,65 +1,87 @@
 import * as THREE from 'three';
 import { controls } from './controls';
+import { camera, renderer } from './view.js';
+import { sphere } from './sphere';
+import { pointLight } from './lighting';
 
+import { tube, geo, points } from './snake';
 
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-document.body.appendChild( renderer.domElement );
+// scene.add( sphere );
+scene.add( camera );
+scene.add( pointLight );
+// scene.add( tube );
 
-var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+var geometry = new THREE.BufferGeometry();
+var vertices = new Float32Array(100*3);
 
-var cube = new THREE.Mesh( geometry, material );
+geometry.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
 
-scene.add( cube );
-
-
-
-
-camera.position.z = 5;
+var material = new THREE.LineBasicMaterial( { color: 0xff00ff } );
+var line = new THREE.Line( geometry, material );
 
 
 
-let accel = {
-  x: 0,
-  y: 0,
-  z: 0
+
+
+
+
+
+const position = line.geometry.attributes.position;
+
+
+let inc = 0;
+for (let i = 0; i < 100; i++) {
+  position.setXYZ(i, inc, inc, inc);
+  inc += .01;
 }
 
-let vel = {
-  x: 0,
-  y: 0,
-  z: 0
+let gravity = -.0005
+let velX = 0.01;
+let velY = 0;
+
+
+function update(){
+
+  velY += gravity;
+  if (controls.up) velY += .0008;
+  if (controls.down) velY -= .0002;
+
+  camera.position.y +=velY;
+  camera.position.x +=velX;
+
+  console.log(camera.position.x);
+
+
+  for (let i = 0; i < 99; i++) {
+    position.setXYZ(i,
+      position.getX(i+1),
+      position.getY(i+1),
+      position.getZ(i+1))
+  }
+
+  position.setXYZ(99,
+    position.getX(98)+velX,
+    position.getY(98)+velY,
+    position.getZ(98)
+  );
+
+
+
+  position.needsUpdate = true;
+
+
+
+
+  scene.add( line );
+
+  if (controls.up) console.log('y');
+
+
+  renderer.render(scene, camera);
+  requestAnimationFrame(update);
 }
 
-let pos = {
-  x:0,
-  y:0,
-  z:0
-}
-
-
-
-
-
-function animate() {
-
-	requestAnimationFrame( animate );
-
-  if (controls.up){
-    vel.y += .0006}
-  if (controls.down){
-    vel.y += -.0006}
-
-    vel.y -=.0001
-
-
-  cube.translateY(vel.y);
-
-	renderer.render( scene, camera );
-}
-animate();
+requestAnimationFrame(update);
