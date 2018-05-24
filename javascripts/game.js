@@ -16,20 +16,25 @@ camera.position.z = 4;
 scene.add( pointLight );
 
 
-const sphere2 = randomSphere();
-scene.add( sphere2.add(camera) );
+// const sphere = randomSphere();
+scene.add( sphere.add(camera) );
 //camera.lookAt( sphere2.position )
 
 
 
 
-
-
+let xTau0 = 0;
+let xOmega = 0;
 
 function update(){
 
-  if (controls.up) sphere2.rotateY(.01);
-  if (controls.down) sphere2.rotateX(.01);
+  let xTau = xTau0;
+  xTau += controls.up ? .001 : 0;
+  xTau -= controls.down ? .001 : 0;
+
+
+  xOmega += xTau - xOmega * .05;
+  sphere.rotateX(xOmega);
 
 
   renderer.render(scene, camera);

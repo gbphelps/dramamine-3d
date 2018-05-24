@@ -93,20 +93,25 @@ __WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */].position.z = 4;
 scene.add( __WEBPACK_IMPORTED_MODULE_4__lighting__["a" /* pointLight */] );
 
 
-const sphere2 = Object(__WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* randomSphere */])();
-scene.add( sphere2.add(__WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */]) );
+// const sphere = randomSphere();
+scene.add( __WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* sphere */].add(__WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */]) );
 //camera.lookAt( sphere2.position )
 
 
 
 
-
-
+let xTau0 = 0;
+let xOmega = 0;
 
 function update(){
 
-  if (__WEBPACK_IMPORTED_MODULE_1__controls__["a" /* controls */].up) sphere2.rotateY(.01);
-  if (__WEBPACK_IMPORTED_MODULE_1__controls__["a" /* controls */].down) sphere2.rotateX(.01);
+  let xTau = xTau0;
+  xTau += __WEBPACK_IMPORTED_MODULE_1__controls__["a" /* controls */].up ? .001 : 0;
+  xTau -= __WEBPACK_IMPORTED_MODULE_1__controls__["a" /* controls */].down ? .001 : 0;
+
+
+  xOmega += xTau - xOmega * .05;
+  __WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* sphere */].rotateX(xOmega);
 
 
   __WEBPACK_IMPORTED_MODULE_2__view_js__["b" /* renderer */].render(scene, __WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */]);
@@ -46432,7 +46437,7 @@ const randColor = () => {
 const sphereMaterial =
   new __WEBPACK_IMPORTED_MODULE_0_three__["c" /* MeshLambertMaterial */](
     {
-      color: randColor()
+      color: 0xffffff
     });
 
 const sphere = new __WEBPACK_IMPORTED_MODULE_0_three__["b" /* Mesh */](
@@ -46444,7 +46449,7 @@ const sphere = new __WEBPACK_IMPORTED_MODULE_0_three__["b" /* Mesh */](
 
   sphereMaterial
 )
-/* unused harmony export sphere */
+/* harmony export (immutable) */ __webpack_exports__["a"] = sphere;
 
 
 
@@ -46464,7 +46469,7 @@ const randomSphere = () => {
 
   return new __WEBPACK_IMPORTED_MODULE_0_three__["b" /* Mesh */](g,m);
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = randomSphere;
+/* unused harmony export randomSphere */
 
 
 window.randomSphere = randomSphere

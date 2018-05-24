@@ -15,7 +15,7 @@ const randColor = () => {
 const sphereMaterial =
   new THREE.MeshLambertMaterial(
     {
-      color: randColor()
+      color: 0xffffff
     });
 
 export const sphere = new THREE.Mesh(
