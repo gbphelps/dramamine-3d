@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { controls } from './controls';
 import { camera, renderer } from './view.js';
 import { sphere, randomSphere, randomTorus } from './sphere';
-import { pointLight, ambientLight } from './lighting';
+import { pointLight1, pointLight2, ambientLight } from './lighting';
 
 import { tube, geo, points } from './snake';
 
@@ -10,17 +10,26 @@ import { tube, geo, points } from './snake';
 const scene = new THREE.Scene();
 
 // scene.add(randomSphere());
-scene.add(randomTorus())
+
+const hoops = [];
+
+for (var i = 0; i < 10; i++) {
+  const torus = randomTorus();
+  scene.add(torus);
+  hoops.push(torus);
+}
 
 camera.position.z = 4;
 // scene.add( camera );
-scene.add( pointLight );
+scene.add( pointLight1 );
+scene.add( pointLight2 );
 scene.add( ambientLight );
 
+scene.background = new THREE.Color( 0x87cefa );
 
-// const sphere = randomSphere();
+
 scene.add( sphere.add(camera) );
-//camera.lookAt( sphere2.position )
+
 
 
 window.THREE = THREE;
@@ -50,10 +59,12 @@ function update(){
   sphere.rotateX(xOmega);
   sphere.rotateY(yOmega);
 
+  hoops.forEach(hoop => hoop.rotateX(.01));
+
 
   let accel = new THREE.Vector3(0,0,0);
   if (controls.forward) {
-    let direction = new THREE.Vector3(0,0,-.001);
+    let direction = new THREE.Vector3(0,0,-.003);
     let forward = new THREE.Matrix4().extractRotation(sphere.matrix);
     accel = direction.applyMatrix4( forward );
   }

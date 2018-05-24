@@ -87,17 +87,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 const scene = new __WEBPACK_IMPORTED_MODULE_0_three__["Scene"]();
 
 // scene.add(randomSphere());
-scene.add(Object(__WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* randomTorus */])())
+
+const hoops = [];
+
+for (var i = 0; i < 10; i++) {
+  const torus = Object(__WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* randomTorus */])();
+  scene.add(torus);
+  hoops.push(torus);
+}
 
 __WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */].position.z = 4;
 // scene.add( camera );
-scene.add( __WEBPACK_IMPORTED_MODULE_4__lighting__["b" /* pointLight */] );
+scene.add( __WEBPACK_IMPORTED_MODULE_4__lighting__["b" /* pointLight1 */] );
+scene.add( __WEBPACK_IMPORTED_MODULE_4__lighting__["c" /* pointLight2 */] );
 scene.add( __WEBPACK_IMPORTED_MODULE_4__lighting__["a" /* ambientLight */] );
 
+scene.background = new __WEBPACK_IMPORTED_MODULE_0_three__["Color"]( 0x87cefa );
 
-// const sphere = randomSphere();
+
 scene.add( __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].add(__WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */]) );
-//camera.lookAt( sphere2.position )
+
 
 
 window.THREE = __WEBPACK_IMPORTED_MODULE_0_three__;
@@ -127,10 +136,12 @@ function update(){
   __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].rotateX(xOmega);
   __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].rotateY(yOmega);
 
+  hoops.forEach(hoop => hoop.rotateX(.01));
+
 
   let accel = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"](0,0,0);
   if (__WEBPACK_IMPORTED_MODULE_1__controls__["a" /* controls */].forward) {
-    let direction = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"](0,0,-.001);
+    let direction = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"](0,0,-.003);
     let forward = new __WEBPACK_IMPORTED_MODULE_0_three__["Matrix4"]().extractRotation(__WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].matrix);
     accel = direction.applyMatrix4( forward );
   }
@@ -46456,7 +46467,7 @@ window.addEventListener('keyup', e=>{
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_three__ = __webpack_require__(1);
 
 
-const radius = 1;
+const radius = .5;
 const segments = 16;
 const rings = 16;
 
@@ -46520,11 +46531,17 @@ const randomTorus = () => {
 
   const color = randColor();
 
+  const z = (Math.random() + 1) * -30;
+  const y = (Math.random() -.5) * 30;
+  const x = (Math.random() -.5) * 30;
+
 
   const m = new __WEBPACK_IMPORTED_MODULE_0_three__["MeshLambertMaterial"]({ color });
   const g = new __WEBPACK_IMPORTED_MODULE_0_three__["TorusGeometry"](radius, tube, rsegs, tsegs);
 
-  return new __WEBPACK_IMPORTED_MODULE_0_three__["Mesh"](g,m);
+  const torus =  new __WEBPACK_IMPORTED_MODULE_0_three__["Mesh"](g,m);
+  torus.position.set(x, y, z)
+  return torus;
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = randomTorus;
 
@@ -46535,21 +46552,24 @@ const randomTorus = () => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return pointLight; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return pointLight1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return pointLight2; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ambientLight; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_three__ = __webpack_require__(1);
 
 
-const pointLight =
-  new __WEBPACK_IMPORTED_MODULE_0_three__["PointLight"](0xFFFFFF);
+const pointLight1 =
+  new __WEBPACK_IMPORTED_MODULE_0_three__["PointLight"](0xFFFF00);
+
+pointLight1.position.set(10,50,130);
 
 
-pointLight.position.x = 10;
-pointLight.position.y = 50;
-pointLight.position.z = 130;
+const pointLight2 =
+  new __WEBPACK_IMPORTED_MODULE_0_three__["PointLight"](0x00FFFF);
+pointLight2.position.set(-10,50,-130);
 
 
-const ambientLight = new __WEBPACK_IMPORTED_MODULE_0_three__["AmbientLight"]( 0x444400 );
+const ambientLight = new __WEBPACK_IMPORTED_MODULE_0_three__["AmbientLight"]( 0xaaeeff );
 
 
 

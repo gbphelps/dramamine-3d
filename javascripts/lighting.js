@@ -1,14 +1,16 @@
 import * as THREE from 'three'
 
-const pointLight =
-  new THREE.PointLight(0xFFFFFF);
+const pointLight1 =
+  new THREE.PointLight(0xFFFF00);
+
+pointLight1.position.set(10,50,130);
 
 
-pointLight.position.x = 10;
-pointLight.position.y = 50;
-pointLight.position.z = 130;
+const pointLight2 =
+  new THREE.PointLight(0x00FFFF);
+pointLight2.position.set(-10,50,-130);
 
 
-const ambientLight = new THREE.AmbientLight( 0x444400 );
+const ambientLight = new THREE.AmbientLight( 0xaaeeff );
 
-export { pointLight, ambientLight }
+export { pointLight1, pointLight2, ambientLight }

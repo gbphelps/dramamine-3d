@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-const radius = 1;
+const radius = .5;
 const segments = 16;
 const rings = 16;
 
@@ -60,9 +60,15 @@ export const randomTorus = () => {
 
   const color = randColor();
 
+  const z = (Math.random() + 1) * -30;
+  const y = (Math.random() -.5) * 30;
+  const x = (Math.random() -.5) * 30;
+
 
   const m = new THREE.MeshLambertMaterial({ color });
   const g = new THREE.TorusGeometry(radius, tube, rsegs, tsegs);
 
-  return new THREE.Mesh(g,m);
+  const torus =  new THREE.Mesh(g,m);
+  torus.position.set(x, y, z)
+  return torus;
 }
