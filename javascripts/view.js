@@ -14,6 +14,6 @@ document.body.appendChild( renderer.domElement );
 
 
 const camera = new THREE.PerspectiveCamera(viewAngle, aspect, near, far);
-camera.position.z = 5;
+
 
 export {camera, renderer}
