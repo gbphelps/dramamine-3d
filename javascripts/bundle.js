@@ -86,15 +86,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 const scene = new __WEBPACK_IMPORTED_MODULE_0_three__["Scene"]();
 
-
+// scene.add(randomSphere());
+scene.add(Object(__WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* randomTorus */])())
 
 __WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */].position.z = 4;
 // scene.add( camera );
-scene.add( __WEBPACK_IMPORTED_MODULE_4__lighting__["a" /* pointLight */] );
+scene.add( __WEBPACK_IMPORTED_MODULE_4__lighting__["b" /* pointLight */] );
+scene.add( __WEBPACK_IMPORTED_MODULE_4__lighting__["a" /* ambientLight */] );
 
 
 // const sphere = randomSphere();
-scene.add( __WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* sphere */].add(__WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */]) );
+scene.add( __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].add(__WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */]) );
 //camera.lookAt( sphere2.position )
 
 
@@ -122,22 +124,22 @@ function update(){
   xOmega += xTau - xOmega * .03;
   yOmega += yTau - yOmega * .03;
 
-  __WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* sphere */].rotateX(xOmega);
-  __WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* sphere */].rotateY(yOmega);
+  __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].rotateX(xOmega);
+  __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].rotateY(yOmega);
 
 
   let accel = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"](0,0,0);
   if (__WEBPACK_IMPORTED_MODULE_1__controls__["a" /* controls */].forward) {
     let direction = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"](0,0,-.001);
-    let forward = new __WEBPACK_IMPORTED_MODULE_0_three__["Matrix4"]().extractRotation(__WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* sphere */].matrix);
+    let forward = new __WEBPACK_IMPORTED_MODULE_0_three__["Matrix4"]().extractRotation(__WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].matrix);
     accel = direction.applyMatrix4( forward );
   }
 
   let delta = velocity.add(accel);
-  __WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* sphere */].position.multiplyScalar(.9).add(delta); //friction?
+  __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].position.multiplyScalar(.98).add(delta); //friction?
 
 
-  console.log(__WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* sphere */].position);
+  console.log(__WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].position);
 
 
 
@@ -46481,7 +46483,7 @@ const sphere = new __WEBPACK_IMPORTED_MODULE_0_three__["Mesh"](
 
   sphereMaterial
 )
-/* harmony export (immutable) */ __webpack_exports__["a"] = sphere;
+/* harmony export (immutable) */ __webpack_exports__["b"] = sphere;
 
 
 
@@ -46504,7 +46506,28 @@ const randomSphere = () => {
 /* unused harmony export randomSphere */
 
 
-window.randomSphere = randomSphere
+
+
+
+
+
+const randomTorus = () => {
+
+  const radius = 2;
+  const tube = .3;
+  const rsegs = 300;
+  const tsegs = 300;
+
+  const color = randColor();
+
+
+  const m = new __WEBPACK_IMPORTED_MODULE_0_three__["MeshLambertMaterial"]({ color });
+  const g = new __WEBPACK_IMPORTED_MODULE_0_three__["TorusGeometry"](radius, tube, rsegs, tsegs);
+
+  return new __WEBPACK_IMPORTED_MODULE_0_three__["Mesh"](g,m);
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = randomTorus;
+
 
 
 /***/ }),
@@ -46512,7 +46535,8 @@ window.randomSphere = randomSphere
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return pointLight; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return pointLight; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ambientLight; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_three__ = __webpack_require__(1);
 
 
@@ -46523,6 +46547,9 @@ const pointLight =
 pointLight.position.x = 10;
 pointLight.position.y = 50;
 pointLight.position.z = 130;
+
+
+const ambientLight = new __WEBPACK_IMPORTED_MODULE_0_three__["AmbientLight"]( 0x444400 );
 
 
 

@@ -46,4 +46,23 @@ export const randomSphere = () => {
   return new THREE.Mesh(g,m);
 }
 
-window.randomSphere = randomSphere
+
+
+
+
+
+export const randomTorus = () => {
+
+  const radius = 2;
+  const tube = .3;
+  const rsegs = 300;
+  const tsegs = 300;
+
+  const color = randColor();
+
+
+  const m = new THREE.MeshLambertMaterial({ color });
+  const g = new THREE.TorusGeometry(radius, tube, rsegs, tsegs);
+
+  return new THREE.Mesh(g,m);
+}

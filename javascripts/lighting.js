@@ -8,4 +8,7 @@ pointLight.position.x = 10;
 pointLight.position.y = 50;
 pointLight.position.z = 130;
 
-export { pointLight }
+
+const ambientLight = new THREE.AmbientLight( 0x444400 );
+
+export { pointLight, ambientLight }

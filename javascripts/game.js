@@ -1,19 +1,21 @@
 import * as THREE from 'three';
 import { controls } from './controls';
 import { camera, renderer } from './view.js';
-import { sphere, randomSphere } from './sphere';
-import { pointLight } from './lighting';
+import { sphere, randomSphere, randomTorus } from './sphere';
+import { pointLight, ambientLight } from './lighting';
 
 import { tube, geo, points } from './snake';
 
 
 const scene = new THREE.Scene();
 
-
+// scene.add(randomSphere());
+scene.add(randomTorus())
 
 camera.position.z = 4;
 // scene.add( camera );
 scene.add( pointLight );
+scene.add( ambientLight );
 
 
 // const sphere = randomSphere();
@@ -57,7 +59,7 @@ function update(){
   }
 
   let delta = velocity.add(accel);
-  sphere.position.multiplyScalar(.9).add(delta); //friction?
+  sphere.position.multiplyScalar(.98).add(delta); //friction?
 
 
   console.log(sphere.position);
