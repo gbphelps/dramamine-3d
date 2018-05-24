@@ -35,8 +35,8 @@ export const sphere = new THREE.Mesh(
 
 export const randomSphere = () => {
   const radius = Math.random();
-  const segments = 16;
-  const rings = 16;
+  const segments = 40;
+  const rings = 40;
   const color = randColor();
 
 
