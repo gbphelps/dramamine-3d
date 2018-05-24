@@ -11,13 +11,12 @@ const scene = new THREE.Scene();
 
 // scene.add(randomSphere());
 
-const npcs = [];
+const hoops = [];
 
 for (var i = 0; i < 10; i++) {
-  const npc = randomSphere();
-  scene.add(npc);
-  npcs.push(npc);
-  console.log(npc.geometry.parameters.radius);
+  const torus = randomTorus();
+  scene.add(torus);
+  hoops.push(torus);
 }
 
 camera.position.z = 4;
@@ -61,13 +60,10 @@ function update(){
   sphere.rotateX(xOmega);
   sphere.rotateY(yOmega);
 
-  npcs.forEach(npc => {
-    const radius = npc.geometry.parameters.radius;
-    let distance = npc.position.distanceTo(sphere.position);
-    if (distance < .5 + radius){
-      if (radius < .5) console.log('chomp!');
-      if (radius > .5) console.log('arghgghoihg');
-    }
+  hoops.forEach(hoop => {
+    let distance = hoop.position.distanceTo(sphere.position);
+    if (distance < 1) console.log('hello!');
+    hoop.rotateX(.01);
   });
 
 

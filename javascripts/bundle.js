@@ -88,24 +88,26 @@ const scene = new __WEBPACK_IMPORTED_MODULE_0_three__["Scene"]();
 
 // scene.add(randomSphere());
 
-const hoops = [];
+const npcs = [];
 
 for (var i = 0; i < 10; i++) {
-  const torus = Object(__WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* randomTorus */])();
-  scene.add(torus);
-  hoops.push(torus);
+  const npc = Object(__WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* randomSphere */])();
+  scene.add(npc);
+  npcs.push(npc);
+  console.log(npc.geometry.parameters.radius);
 }
 
 __WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */].position.z = 4;
-// scene.add( camera );
+
+
 scene.add( __WEBPACK_IMPORTED_MODULE_4__lighting__["b" /* pointLight1 */] );
 scene.add( __WEBPACK_IMPORTED_MODULE_4__lighting__["c" /* pointLight2 */] );
 scene.add( __WEBPACK_IMPORTED_MODULE_4__lighting__["a" /* ambientLight */] );
-
+scene.add( __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].add(__WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */]) );
 scene.background = new __WEBPACK_IMPORTED_MODULE_0_three__["Color"]( 0x87cefa );
 
 
-scene.add( __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].add(__WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */]) );
+
 
 
 
@@ -136,7 +138,14 @@ function update(){
   __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].rotateX(xOmega);
   __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].rotateY(yOmega);
 
-  hoops.forEach(hoop => hoop.rotateX(.01));
+  npcs.forEach(npc => {
+    const radius = npc.geometry.parameters.radius;
+    let distance = npc.position.distanceTo(__WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].position);
+    if (distance < .5 + radius){
+      if (radius < .5) console.log('chomp!');
+      if (radius > .5) console.log('arghgghoihg');
+    }
+  });
 
 
   let accel = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"](0,0,0);
@@ -147,10 +156,7 @@ function update(){
   }
 
   let delta = velocity.add(accel);
-  __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].position.multiplyScalar(.98).add(delta); //friction?
-
-
-  console.log(__WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].position);
+  __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].position.multiplyScalar(.99).add(delta); //friction?
 
 
 
@@ -46503,18 +46509,26 @@ const sphere = new __WEBPACK_IMPORTED_MODULE_0_three__["Mesh"](
 
 
 const randomSphere = () => {
-  const radius = Math.random();
+  const radius = Math.random()*3;
   const segments = 40;
   const rings = 40;
-  const color = randColor();
+  // const color = randColor();
+  const color = radius > .5 ? 0xFF0000 : 0x0000FF;
+
+  const z = (Math.random() + 1) * -30;
+  const y = (Math.random() -.5) * 30;
+  const x = (Math.random() -.5) * 30;
 
 
   const m = new __WEBPACK_IMPORTED_MODULE_0_three__["MeshLambertMaterial"]({ color });
   const g = new __WEBPACK_IMPORTED_MODULE_0_three__["SphereGeometry"](radius, segments, rings);
 
-  return new __WEBPACK_IMPORTED_MODULE_0_three__["Mesh"](g,m);
+
+  const sphere = new __WEBPACK_IMPORTED_MODULE_0_three__["Mesh"](g,m);
+  sphere.position.set(x, y, z);
+  return sphere;
 }
-/* unused harmony export randomSphere */
+/* harmony export (immutable) */ __webpack_exports__["a"] = randomSphere;
 
 
 
@@ -46543,7 +46557,7 @@ const randomTorus = () => {
   torus.position.set(x, y, z)
   return torus;
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = randomTorus;
+/* unused harmony export randomTorus */
 
 
 
