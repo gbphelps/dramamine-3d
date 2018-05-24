@@ -87,13 +87,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 const scene = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* Scene */]();
 
 
-__WEBPACK_IMPORTED_MODULE_5__snake__["a" /* tube */].position.z = -10;
+
 __WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */].position.z = 4;
-scene.add( __WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */] );
+// scene.add( camera );
 scene.add( __WEBPACK_IMPORTED_MODULE_4__lighting__["a" /* pointLight */] );
 
 
-scene.add( Object(__WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* randomSphere */])() );
+const sphere2 = Object(__WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* randomSphere */])();
+scene.add( sphere2.add(__WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */]) );
+//camera.lookAt( sphere2.position )
 
 
 
@@ -103,8 +105,8 @@ scene.add( Object(__WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* randomSphere */])
 
 function update(){
 
-  if (__WEBPACK_IMPORTED_MODULE_1__controls__["a" /* controls */].up) __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].rotateY(.01);
-  if (__WEBPACK_IMPORTED_MODULE_1__controls__["a" /* controls */].down) __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].rotateX(.01);
+  if (__WEBPACK_IMPORTED_MODULE_1__controls__["a" /* controls */].up) sphere2.rotateY(.01);
+  if (__WEBPACK_IMPORTED_MODULE_1__controls__["a" /* controls */].down) sphere2.rotateX(.01);
 
 
   __WEBPACK_IMPORTED_MODULE_2__view_js__["b" /* renderer */].render(scene, __WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */]);
@@ -46442,7 +46444,7 @@ const sphere = new __WEBPACK_IMPORTED_MODULE_0_three__["b" /* Mesh */](
 
   sphereMaterial
 )
-/* harmony export (immutable) */ __webpack_exports__["b"] = sphere;
+/* unused harmony export sphere */
 
 
 
@@ -46523,7 +46525,7 @@ const camera = new __WEBPACK_IMPORTED_MODULE_0_three__["d" /* PerspectiveCamera 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return tube; });
+/* unused harmony export tube */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_three__ = __webpack_require__(1);
 
 

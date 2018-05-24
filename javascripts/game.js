@@ -10,13 +10,15 @@ import { tube, geo, points } from './snake';
 const scene = new THREE.Scene();
 
 
-tube.position.z = -10;
+
 camera.position.z = 4;
-scene.add( camera );
+// scene.add( camera );
 scene.add( pointLight );
 
 
-scene.add( randomSphere() );
+const sphere2 = randomSphere();
+scene.add( sphere2.add(camera) );
+//camera.lookAt( sphere2.position )
 
 
 
@@ -26,8 +28,8 @@ scene.add( randomSphere() );
 
 function update(){
 
-  if (controls.up) sphere.rotateY(.01);
-  if (controls.down) sphere.rotateX(.01);
+  if (controls.up) sphere2.rotateY(.01);
+  if (controls.down) sphere2.rotateX(.01);
 
 
   renderer.render(scene, camera);
