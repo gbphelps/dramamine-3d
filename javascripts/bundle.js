@@ -156,7 +156,15 @@ function update(){
     let normal = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"](0,0,1).applyMatrix4(new __WEBPACK_IMPORTED_MODULE_0_three__["Matrix4"]().extractRotation(hoop.matrix));
     let distanceToPlane = Math.abs(distanceVec.dot(normal));
     let distanceToCenter = Math.sqrt(distance*distance - distanceToPlane*distanceToPlane);
-    if (distanceToPlane < .5 && distanceToCenter < 2){console.log('YAS');}
+    if (distanceToPlane < (.5 + .3) && distanceToCenter < (2 + .3) && distanceToCenter > (2 - .3))
+    {
+      console.log('YIKES'); //you've hit the ring
+      hoop.material.color = new __WEBPACK_IMPORTED_MODULE_0_three__["Color"](0xFF0000)
+      hoop.material.needsUpdate = true;
+    }
+    if (distanceToPlane < .05 && distanceToCenter < 2){
+      console.log('YAS');
+    } //2 is the torus radius, .5 rad ball, .3 rad tube
 
 
     hoop.rotateX(.01);
@@ -46489,8 +46497,8 @@ window.addEventListener('keyup', e=>{
 
 
 const radius = .5;
-const segments = 16;
-const rings = 16;
+const segments = 10;
+const rings = 10;
 
 const randColor = () => {
   return Math.random()*16777216
@@ -46555,8 +46563,8 @@ const randomTorus = () => {
 
   const radius = 2;
   const tube = .3;
-  const rsegs = 300;
-  const tsegs = 300;
+  const rsegs = 20;
+  const tsegs = 20;
 
   const color = randColor();
 

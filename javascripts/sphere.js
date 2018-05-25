@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 
 const radius = .5;
-const segments = 16;
-const rings = 16;
+const segments = 10;
+const rings = 10;
 
 const randColor = () => {
   return Math.random()*16777216
@@ -63,8 +63,8 @@ export const randomTorus = () => {
 
   const radius = 2;
   const tube = .3;
-  const rsegs = 300;
-  const tsegs = 300;
+  const rsegs = 20;
+  const tsegs = 20;
 
   const color = randColor();
 

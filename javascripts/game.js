@@ -79,7 +79,15 @@ function update(){
     let normal = new THREE.Vector3(0,0,1).applyMatrix4(new THREE.Matrix4().extractRotation(hoop.matrix));
     let distanceToPlane = Math.abs(distanceVec.dot(normal));
     let distanceToCenter = Math.sqrt(distance*distance - distanceToPlane*distanceToPlane);
-    if (distanceToPlane < .5 && distanceToCenter < 2){console.log('YAS');}
+    if (distanceToPlane < (.5 + .3) && distanceToCenter < (2 + .3) && distanceToCenter > (2 - .3))
+    {
+      console.log('YIKES'); //you've hit the ring
+      hoop.material.color = new THREE.Color(0xFF0000)
+      hoop.material.needsUpdate = true;
+    }
+    if (distanceToPlane < .05 && distanceToCenter < 2){
+      console.log('YAS');
+    } //2 is the torus radius, .5 rad ball, .3 rad tube
 
 
     hoop.rotateX(.01);
