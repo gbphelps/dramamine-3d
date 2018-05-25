@@ -88,13 +88,13 @@ const scene = new __WEBPACK_IMPORTED_MODULE_0_three__["Scene"]();
 
 // scene.add(randomSphere());
 
-const npcs = [];
+const hoops = [];
 
 for (var i = 0; i < 10; i++) {
-  const npc = Object(__WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* randomSphere */])();
-  scene.add(npc);
-  npcs.push(npc);
-  console.log(npc.geometry.parameters.radius);
+
+  const torus = Object(__WEBPACK_IMPORTED_MODULE_3__sphere__["a" /* randomTorus */])();
+  scene.add(torus);
+  hoops.push(torus);
 }
 
 __WEBPACK_IMPORTED_MODULE_2__view_js__["a" /* camera */].position.z = 4;
@@ -123,6 +123,8 @@ let velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"](0,0,0);
 
 function update(){
 
+  console.log(velocity.length());
+
   let xTau = xTau0;
   let yTau = yTau0;
 
@@ -138,13 +140,10 @@ function update(){
   __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].rotateX(xOmega);
   __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].rotateY(yOmega);
 
-  npcs.forEach(npc => {
-    const radius = npc.geometry.parameters.radius;
-    let distance = npc.position.distanceTo(__WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].position);
-    if (distance < .5 + radius){
-      if (radius < .5) console.log('chomp!');
-      if (radius > .5) console.log('arghgghoihg');
-    }
+  hoops.forEach(hoop => {
+    let distance = hoop.position.distanceTo(__WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].position);
+    if (distance < 1) console.log('hello!');
+    hoop.rotateX(.01);
   });
 
 
@@ -155,8 +154,8 @@ function update(){
     accel = direction.applyMatrix4( forward );
   }
 
-  let delta = velocity.add(accel);
-  __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].position.multiplyScalar(.99).add(delta); //friction?
+  velocity.multiplyScalar(.99).add(accel);
+  __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].position.add(velocity); //friction?
 
 
 
@@ -46528,7 +46527,7 @@ const randomSphere = () => {
   sphere.position.set(x, y, z);
   return sphere;
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = randomSphere;
+/* unused harmony export randomSphere */
 
 
 
@@ -46557,7 +46556,7 @@ const randomTorus = () => {
   torus.position.set(x, y, z)
   return torus;
 }
-/* unused harmony export randomTorus */
+/* harmony export (immutable) */ __webpack_exports__["a"] = randomTorus;
 
 
 

@@ -11,13 +11,13 @@ const scene = new THREE.Scene();
 
 // scene.add(randomSphere());
 
-const hoops = [];
+const npcs = [];
 
 for (var i = 0; i < 10; i++) {
-
-  const torus = randomTorus();
-  scene.add(torus);
-  hoops.push(torus);
+  const npc = randomSphere();
+  scene.add(npc);
+  npcs.push(npc);
+  console.log(npc.geometry.parameters.radius);
 }
 
 camera.position.z = 4;
@@ -46,8 +46,6 @@ let velocity = new THREE.Vector3(0,0,0);
 
 function update(){
 
-  console.log(velocity.length());
-
   let xTau = xTau0;
   let yTau = yTau0;
 
@@ -63,10 +61,13 @@ function update(){
   sphere.rotateX(xOmega);
   sphere.rotateY(yOmega);
 
-  hoops.forEach(hoop => {
-    let distance = hoop.position.distanceTo(sphere.position);
-    if (distance < 1) console.log('hello!');
-    hoop.rotateX(.01);
+  npcs.forEach(npc => {
+    const radius = npc.geometry.parameters.radius;
+    let distance = npc.position.distanceTo(sphere.position);
+    if (distance < .5 + radius){
+      if (radius < .5) console.log('chomp!');
+      if (radius > .5) console.log('arghgghoihg');
+    }
   });
 
 
@@ -77,8 +78,8 @@ function update(){
     accel = direction.applyMatrix4( forward );
   }
 
-  velocity.multiplyScalar(.99).add(accel);
-  sphere.position.add(velocity); //friction?
+  let delta = velocity.add(accel);
+  sphere.position.multiplyScalar(.99).add(delta); //friction?
 
 
 
