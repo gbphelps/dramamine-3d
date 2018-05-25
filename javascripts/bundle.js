@@ -159,11 +159,12 @@ function update(){
     if (distanceToPlane < (.5 + .3) && distanceToCenter < (2 + .3) && distanceToCenter > (2 - .3))
     {
       console.log('YIKES'); //you've hit the ring
-      hoop.material.color = new __WEBPACK_IMPORTED_MODULE_0_three__["Color"](0xFF0000)
+      hoop.material.color = new __WEBPACK_IMPORTED_MODULE_0_three__["Color"](0xFF0000);
       hoop.material.needsUpdate = true;
     }
     if (distanceToPlane < .05 && distanceToCenter < 2){
       console.log('YAS');
+      hoop.material.color = new __WEBPACK_IMPORTED_MODULE_0_three__["Color"](0xFFFF00)
     } //2 is the torus radius, .5 rad ball, .3 rad tube
 
 
@@ -46566,7 +46567,7 @@ const randomTorus = () => {
   const rsegs = 20;
   const tsegs = 20;
 
-  const color = randColor();
+  const color = 0x999999 ;
 
   const z = (Math.random() + 1) * -30;
   const y = (Math.random() -.5) * 30;

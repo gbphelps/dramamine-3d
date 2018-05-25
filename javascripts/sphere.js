@@ -66,7 +66,7 @@ export const randomTorus = () => {
   const rsegs = 20;
   const tsegs = 20;
 
-  const color = randColor();
+  const color = 0x999999 ;
 
   const z = (Math.random() + 1) * -30;
   const y = (Math.random() -.5) * 30;

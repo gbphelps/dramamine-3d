@@ -82,11 +82,12 @@ function update(){
     if (distanceToPlane < (.5 + .3) && distanceToCenter < (2 + .3) && distanceToCenter > (2 - .3))
     {
       console.log('YIKES'); //you've hit the ring
-      hoop.material.color = new THREE.Color(0xFF0000)
+      hoop.material.color = new THREE.Color(0xFF0000);
       hoop.material.needsUpdate = true;
     }
     if (distanceToPlane < .05 && distanceToCenter < 2){
       console.log('YAS');
+      hoop.material.color = new THREE.Color(0xFFFF00)
     } //2 is the torus radius, .5 rad ball, .3 rad tube
 
 
