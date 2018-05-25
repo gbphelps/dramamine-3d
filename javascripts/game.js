@@ -1,14 +1,24 @@
 import * as THREE from 'three';
-import { controls } from './controls';
-import { camera, renderer } from './view.js';
-import { sphere, randomSphere, randomTorus } from './sphere';
-import { pointLight1, pointLight2, ambientLight } from './lighting';
+import values from 'lodash/values'
+
+import { controls } from './configs/controls';
+import { camera, renderer } from './configs/view.js';
+import * as lights from './configs/lighting';
+
+import { sphere } from './player';
 import { randomHoop } from './hoops';
 
 
+let score = 0;
 
+
+//Configure scene.
 const scene = new THREE.Scene();
+values(lights).forEach(light => scene.add(light));
+scene.background = new THREE.Color( 0x87cefa );
 
+scene.add( sphere.add(camera) );
+camera.position.z = 4;
 
 const hoops = [];
 
@@ -19,78 +29,99 @@ for (var i = 0; i < 20; i++) {
   hoops.push(hoop);
 }
 
-camera.position.z = 4;
+//updates for each animation frame.
 
+function applySteering(){
+  sphere.tau = new THREE.Vector2(0,0);
+  sphere.tau.x += controls.up    ? .002 : 0;
+  sphere.tau.x -= controls.down  ? .002 : 0;
+  sphere.tau.y += controls.left  ? .002 : 0;
+  sphere.tau.y -= controls.right ? .002 : 0;
 
-scene.add( pointLight1 );
-scene.add( pointLight2 );
-scene.add( ambientLight );
-scene.add( sphere.add(camera) );
-scene.background = new THREE.Color( 0x87cefa );
+  sphere.omega.multiplyScalar(.95).add(sphere.tau);
 
+  sphere.rotateX(sphere.omega.x);
+  sphere.rotateY(sphere.omega.y);
+}
 
-let tau = new THREE.Vector2(0,0);
-let omega = new THREE.Vector2(0,0);
-let velocity = new THREE.Vector3(0,0,0);
-let score = 0;
-
-
-function update(){
-
-  let tau = new THREE.Vector2(0,0);
-  tau.x += controls.up    ? .002 : 0;
-  tau.x -= controls.down  ? .002 : 0;
-  tau.y += controls.left  ? .002 : 0;
-  tau.y -= controls.right ? .002 : 0;
-
-  omega.multiplyScalar(.95).add(tau);
-
-  sphere.rotateX(omega.x);
-  sphere.rotateY(omega.y);
-
-
-  hoops.forEach(hoop => {
-    if (hoop.status == -1) return;
-    const hoopRadius = hoop.geometry.parameters.radius;
-
-    const distanceVec = new THREE.Vector3().subVectors(hoop.position,sphere.position);
-    const distance = distanceVec.length();
-    const normal = new THREE.Vector3(0,0,1).applyMatrix4(new THREE.Matrix4().extractRotation(hoop.matrix));
-    const distanceToPlane = Math.abs(distanceVec.dot(normal));
-    const distanceToCenter = Math.sqrt(distance*distance - distanceToPlane*distanceToPlane);
-    if (distanceToPlane < (.5 + .3) && distanceToCenter < (2 + .3 + .5) && distanceToCenter > (2 - .3 - .5))
-    {
-      score -= (hoop.status == 1 ? 2 : 1);
-      console.log(score);
-      hoop.material.color = new THREE.Color(0xFF0000);
-      hoop.material.transparent = true;
-      hoop.material.opacity = .5;
-      hoop.material.needsUpdate = true;
-      hoop.status = -1;
-    }
-    if (distanceToPlane < .1 && distanceToCenter < 2){ //distance to plane should really be 0 but it's glitchy
-
-      hoop.material.color = new THREE.Color(0xFFFF00);
-      if (hoop.status === 0) score += 1;
-      hoop.status = 1;
-      console.log(score);
-    } //2 is the torus radius, .5 rad ball, .3 rad tube
-
-
-    hoop.rotateX(hoop.omega.x);
-    hoop.rotateY(hoop.omega.y);
-  });
-
-
+function movePlayer(){
   let accel = new THREE.Vector3(0,0,0);
   if (controls.forward) {
     let direction = new THREE.Vector3(0,0,-.003);
     let forward = new THREE.Matrix4().extractRotation(sphere.matrix);
     accel = direction.applyMatrix4( forward );
   }
+  //multiply by .99 to simulate friction.
+  sphere.velocity.multiplyScalar(.99).add(accel);
+  sphere.position.add(sphere.velocity);
+}
 
-  velocity.multiplyScalar(.99).add(accel);
-  sphere.position.add(velocity); //friction?
+
+function onCollision(hoop){
+  score -= (hoop.status == 1 ? 2 : 1);
+  console.log(score);
+  hoop.material.color = new THREE.Color(0xFF0000);
+  hoop.material.transparent = true;
+  hoop.material.opacity = .5;
+  hoop.material.needsUpdate = true;
+  hoop.status = -1;
+}
+
+
+function didCollide(toPlane, toCenter, hoop){
+  //both of the .5s below are for collision leniency.
+  const hoopRadius    = hoop.geometry.parameters.radius;
+  const tubeRadius    = hoop.geometry.parameters.tube;
+  const sphereRadius  = sphere.geometry.parameters.radius;
+  const offset = tubeRadius + sphereRadius;
+
+  return toPlane < (offset -.5) &&
+      (hoopRadius - offset +.5) < toCenter &&
+      toCenter < (hoopRadius + offset)
+}
+
+
+function updateHoop(hoop){
+  if (hoop.status == -1) return;
+  const hoopRadius = hoop.geometry.parameters.radius;
+  const tubeRadius = hoop.geometry.parameters.tube;
+  const sphereRadius = sphere.geometry.parameters.radius;
+
+  const distanceVec = new THREE.Vector3().subVectors(hoop.position,sphere.position);
+  const distance = distanceVec.length();
+  const rotation = new THREE.Matrix4().extractRotation(hoop.matrix);
+  const normal = new THREE.Vector3(0,0,1).applyMatrix4(rotation);
+
+  const toPlane = Math.abs(distanceVec.dot(normal));
+  const toCenter = Math.sqrt(distance*distance - toPlane*toPlane);
+
+
+  if (didCollide(toPlane, toCenter, hoop)) onCollision(hoop);
+
+  if (toPlane < .1 && toCenter < 2) hoop.status = 'pending';
+  //went through hoop! Need to make sure it gets back out.
+
+  if (hoop.status === 'pending' && toPlane > .8){
+    score += 1;
+    hoop.status = 1;
+    hoop.material.color = new THREE.Color(0xFFFF00);
+    console.log(score);
+  }
+
+  hoop.rotateX(hoop.omega.x);
+  hoop.rotateY(hoop.omega.y);
+  hoop.rotateZ(hoop.omega.z);
+  hoop.position.add(hoop.velocity);
+}
+
+
+
+function update(){
+
+  applySteering();
+  hoops.forEach(hoop => updateHoop(hoop));
+  movePlayer();
+
 
 
 

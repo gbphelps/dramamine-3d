@@ -21,8 +21,7 @@ export const randomHoop = () => {
   const hoop =  new THREE.Mesh(g,m);
   hoop.position.set(x, y, z);
   hoop.status = 0;
-  hoop.omega = new THREE.Vector3();
-  hoop.omega = new THREE.Vector3(Math.random()*.01,Math.random()*.01,Math.random()*.01);
-
+  hoop.omega = new THREE.Vector3((Math.random()-.5)*.02,(Math.random()-.5)*.02,(Math.random()-.5)*.02);
+  hoop.velocity = new THREE.Vector3((Math.random()-.5)*.01,(Math.random()-.5)*.01,(Math.random()-.5)*.01);
   return hoop;
 }
