@@ -46516,6 +46516,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__configs_lighting__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__player__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__hoops__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__spheres__ = __webpack_require__(40);
 
 
 
@@ -46545,6 +46546,14 @@ for (var i = 0; i < 20; i++) {
   const hoop = Object(__WEBPACK_IMPORTED_MODULE_6__hoops__["a" /* randomHoop */])();
   scene.add(hoop);
   hoops.push(hoop);
+}
+
+const baddies = [];
+
+for (var i = 0; i < 4; i++){
+  const baddie = Object(__WEBPACK_IMPORTED_MODULE_7__spheres__["a" /* randomSphere */])();
+  baddies.push(baddie);
+  scene.add(baddie);
 }
 
 //updates for each animation frame.
@@ -46620,6 +46629,7 @@ function updateHoop(hoop){
   //went through hoop! Need to make sure it gets back out.
 
   if (hoop.status === 'pending' && toPlane > .8){
+  //successfully cleared ring
     score += 1;
     hoop.status = 1;
     hoop.material.color = new __WEBPACK_IMPORTED_MODULE_0_three__["b" /* Color */](0xFFFF00);
@@ -46633,16 +46643,18 @@ function updateHoop(hoop){
 }
 
 
-
 function update(){
 
   applySteering();
   hoops.forEach(hoop => updateHoop(hoop));
   movePlayer();
 
-
-
-
+  baddies.forEach(baddie => {
+    let accel = new __WEBPACK_IMPORTED_MODULE_0_three__["l" /* Vector3 */]().subVectors(__WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].position, baddie.position);
+    accel = accel.multiplyScalar(1 / accel.length()*.003);
+    baddie.velocity.multiplyScalar(.99).add(accel);
+    baddie.position.add(baddie.velocity);
+  });
 
 
   __WEBPACK_IMPORTED_MODULE_3__configs_view_js__["b" /* renderer */].render(scene, __WEBPACK_IMPORTED_MODULE_3__configs_view_js__["a" /* camera */]);
@@ -47708,6 +47720,41 @@ const randomHoop = () => {
   return hoop;
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = randomHoop;
+
+
+
+/***/ }),
+/* 40 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_three__ = __webpack_require__(0);
+
+
+const randomSphere = () => {
+  const radius = 1;
+  const segments = 40;
+  const rings = 40;
+
+  const color = 0xFF0000;
+
+  const z = (Math.random() + 1) * -30;
+  const y = (Math.random() -.5) * 30;
+  const x = (Math.random() -.5) * 30;
+
+
+  const m = new __WEBPACK_IMPORTED_MODULE_0_three__["e" /* MeshLambertMaterial */]({ color });
+  const g = new __WEBPACK_IMPORTED_MODULE_0_three__["i" /* SphereGeometry */](radius, segments, rings);
+
+
+  const sphere = new __WEBPACK_IMPORTED_MODULE_0_three__["d" /* Mesh */](g,m);
+  sphere.position.set(x, y, z);
+  sphere.tau = new __WEBPACK_IMPORTED_MODULE_0_three__["k" /* Vector2 */](0,0);
+  sphere.omega = new __WEBPACK_IMPORTED_MODULE_0_three__["k" /* Vector2 */](0,0);
+  sphere.velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["l" /* Vector3 */](0,0,0);
+  return sphere;
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = randomSphere;
 
 
 

@@ -7,7 +7,7 @@ import * as lights from './configs/lighting';
 
 import { sphere } from './player';
 import { randomHoop } from './hoops';
-
+import { randomSphere } from './spheres';
 
 let score = 0;
 
@@ -27,6 +27,14 @@ for (var i = 0; i < 20; i++) {
   const hoop = randomHoop();
   scene.add(hoop);
   hoops.push(hoop);
+}
+
+const baddies = [];
+
+for (var i = 0; i < 4; i++){
+  const baddie = randomSphere();
+  baddies.push(baddie);
+  scene.add(baddie);
 }
 
 //updates for each animation frame.
@@ -102,6 +110,7 @@ function updateHoop(hoop){
   //went through hoop! Need to make sure it gets back out.
 
   if (hoop.status === 'pending' && toPlane > .8){
+  //successfully cleared ring
     score += 1;
     hoop.status = 1;
     hoop.material.color = new THREE.Color(0xFFFF00);
@@ -115,16 +124,18 @@ function updateHoop(hoop){
 }
 
 
-
 function update(){
 
   applySteering();
   hoops.forEach(hoop => updateHoop(hoop));
   movePlayer();
 
-
-
-
+  baddies.forEach(baddie => {
+    let accel = new THREE.Vector3().subVectors(sphere.position, baddie.position);
+    accel = accel.multiplyScalar(1 / accel.length()*.003);
+    baddie.velocity.multiplyScalar(.99).add(accel);
+    baddie.position.add(baddie.velocity);
+  });
 
 
   renderer.render(scene, camera);

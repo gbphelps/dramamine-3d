@@ -1,9 +1,11 @@
+import * as THREE from 'three';
+
 export const randomSphere = () => {
-  const radius = Math.random()*3;
+  const radius = 1;
   const segments = 40;
   const rings = 40;
-  // const color = randColor();
-  const color = radius > .5 ? 0xFF0000 : 0x0000FF;
+
+  const color = 0xFF0000;
 
   const z = (Math.random() + 1) * -30;
   const y = (Math.random() -.5) * 30;
@@ -16,5 +18,8 @@ export const randomSphere = () => {
 
   const sphere = new THREE.Mesh(g,m);
   sphere.position.set(x, y, z);
+  sphere.tau = new THREE.Vector2(0,0);
+  sphere.omega = new THREE.Vector2(0,0);
+  sphere.velocity = new THREE.Vector3(0,0,0);
   return sphere;
 }
