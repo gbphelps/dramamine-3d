@@ -36,6 +36,12 @@ scene.background = new THREE.Color( 0x87cefa );
 
 window.THREE = THREE;
 
+
+
+
+
+
+
 let xTau0 = 0;
 let xOmega = 0;
 let yTau0 = 0;
@@ -44,9 +50,13 @@ let yOmega = 0;
 
 let velocity = new THREE.Vector3(0,0,0);
 
+
+
+
+
 function update(){
 
-  console.log(velocity.length());
+  // console.log(velocity.length());
 
   let xTau = xTau0;
   let yTau = yTau0;
@@ -64,8 +74,14 @@ function update(){
   sphere.rotateY(yOmega);
 
   hoops.forEach(hoop => {
-    let distance = hoop.position.distanceTo(sphere.position);
-    if (distance < 1) console.log('hello!');
+    let distanceVec = new THREE.Vector3().subVectors(hoop.position,sphere.position);
+    let distance = distanceVec.length();
+    let normal = new THREE.Vector3(0,0,1).applyMatrix4(new THREE.Matrix4().extractRotation(hoop.matrix));
+    let distanceToPlane = Math.abs(distanceVec.dot(normal));
+    let distanceToCenter = Math.sqrt(distance*distance - distanceToPlane*distanceToPlane);
+    if (distanceToPlane < .5 && distanceToCenter < 2){console.log('YAS');}
+
+
     hoop.rotateX(.01);
   });
 

@@ -113,6 +113,12 @@ scene.background = new __WEBPACK_IMPORTED_MODULE_0_three__["Color"]( 0x87cefa );
 
 window.THREE = __WEBPACK_IMPORTED_MODULE_0_three__;
 
+
+
+
+
+
+
 let xTau0 = 0;
 let xOmega = 0;
 let yTau0 = 0;
@@ -121,9 +127,13 @@ let yOmega = 0;
 
 let velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"](0,0,0);
 
+
+
+
+
 function update(){
 
-  console.log(velocity.length());
+  // console.log(velocity.length());
 
   let xTau = xTau0;
   let yTau = yTau0;
@@ -141,8 +151,14 @@ function update(){
   __WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].rotateY(yOmega);
 
   hoops.forEach(hoop => {
-    let distance = hoop.position.distanceTo(__WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].position);
-    if (distance < 1) console.log('hello!');
+    let distanceVec = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"]().subVectors(hoop.position,__WEBPACK_IMPORTED_MODULE_3__sphere__["b" /* sphere */].position);
+    let distance = distanceVec.length();
+    let normal = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"](0,0,1).applyMatrix4(new __WEBPACK_IMPORTED_MODULE_0_three__["Matrix4"]().extractRotation(hoop.matrix));
+    let distanceToPlane = Math.abs(distanceVec.dot(normal));
+    let distanceToCenter = Math.sqrt(distance*distance - distanceToPlane*distanceToPlane);
+    if (distanceToPlane < .5 && distanceToCenter < 2){console.log('YAS');}
+
+
     hoop.rotateX(.01);
   });
 
