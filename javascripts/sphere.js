@@ -77,6 +77,7 @@ export const randomTorus = () => {
   const g = new THREE.TorusGeometry(radius, tube, rsegs, tsegs);
 
   const torus =  new THREE.Mesh(g,m);
-  torus.position.set(x, y, z)
+  torus.position.set(x, y, z);
+  torus.status = 0;
   return torus;
 }

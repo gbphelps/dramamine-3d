@@ -53,7 +53,7 @@ let velocity = new THREE.Vector3(0,0,0);
 
 
 
-
+let score = 0;
 function update(){
 
   // console.log(velocity.length());
@@ -73,7 +73,12 @@ function update(){
   sphere.rotateX(xOmega);
   sphere.rotateY(yOmega);
 
+
+
+
+
   hoops.forEach(hoop => {
+    if (hoop.status == -1) return;
     let distanceVec = new THREE.Vector3().subVectors(hoop.position,sphere.position);
     let distance = distanceVec.length();
     let normal = new THREE.Vector3(0,0,1).applyMatrix4(new THREE.Matrix4().extractRotation(hoop.matrix));
@@ -81,13 +86,20 @@ function update(){
     let distanceToCenter = Math.sqrt(distance*distance - distanceToPlane*distanceToPlane);
     if (distanceToPlane < (.5 + .3) && distanceToCenter < (2 + .3) && distanceToCenter > (2 - .3))
     {
-      console.log('YIKES'); //you've hit the ring
+      score -= (hoop.status == 1 ? 2 : 1);
+      console.log(score);
       hoop.material.color = new THREE.Color(0xFF0000);
+      hoop.material.transparent = true;
+      hoop.material.opacity = .5;
       hoop.material.needsUpdate = true;
+      hoop.status = -1;
     }
-    if (distanceToPlane < .05 && distanceToCenter < 2){
+    if (distanceToPlane < .1 && distanceToCenter < 2){ //distance to plane should really be 0 but it's glitchy
       console.log('YAS');
-      hoop.material.color = new THREE.Color(0xFFFF00)
+      hoop.material.color = new THREE.Color(0xFFFF00);
+      hoop.status = 1;
+      score += 1;
+      console.log(score);
     } //2 is the torus radius, .5 rad ball, .3 rad tube
 
 
