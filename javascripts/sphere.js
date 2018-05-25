@@ -1,8 +1,6 @@
 import * as THREE from 'three';
 
-const radius = .5;
-const segments = 10;
-const rings = 10;
+
 
 const randColor = () => {
   return Math.random()*16777216
@@ -12,6 +10,11 @@ const randColor = () => {
 
 
 
+
+
+const radius = .5;
+const segments = 10;
+const rings = 10;
 const sphereMaterial =
   new THREE.MeshLambertMaterial(
     {
@@ -52,32 +55,4 @@ export const randomSphere = () => {
   const sphere = new THREE.Mesh(g,m);
   sphere.position.set(x, y, z);
   return sphere;
-}
-
-
-
-
-
-
-export const randomTorus = () => {
-
-  const radius = 2;
-  const tube = .3;
-  const rsegs = 20;
-  const tsegs = 20;
-
-  const color = 0x999999 ;
-
-  const z = (Math.random() + 1) * -30;
-  const y = (Math.random() -.5) * 30;
-  const x = (Math.random() -.5) * 30;
-
-
-  const m = new THREE.MeshLambertMaterial({ color });
-  const g = new THREE.TorusGeometry(radius, tube, rsegs, tsegs);
-
-  const torus =  new THREE.Mesh(g,m);
-  torus.position.set(x, y, z);
-  torus.status = 0;
-  return torus;
 }
