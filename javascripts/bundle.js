@@ -46515,8 +46515,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__configs_view_js__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__configs_lighting__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__player__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__text_alert__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__hoopPath__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__hoopPath__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__text_alert__ = __webpack_require__(43);
 
 
 
@@ -46529,29 +46529,59 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 // import { makeBaddie } from './baddie';
 
 
-const scene = new __WEBPACK_IMPORTED_MODULE_0_three__["i" /* Scene */]();
-let score = 0;
-let timer = 600;
 
 
-////////////
 
-const hoopPath = new __WEBPACK_IMPORTED_MODULE_7__hoopPath__["a" /* default */](scene);
-////////////
+let scene, hoopPath, hoops, dots, score, timer, duration, sphere, run;
 
-let hoops = hoopPath.hoops;
-let dots = hoopPath.dots;
+const start = () => {
+  window.cancelAnimationFrame(run);
+
+  scene = new __WEBPACK_IMPORTED_MODULE_0_three__["i" /* Scene */]();
+  hoopPath = new __WEBPACK_IMPORTED_MODULE_6__hoopPath__["a" /* default */](scene);
+  hoops = hoopPath.hoops;
+  dots = hoopPath.dots;
+
+  score = 0;
+  timer = 2000;
+  duration = 0;
+
+  __WEBPACK_IMPORTED_MODULE_1_lodash_values___default()(__WEBPACK_IMPORTED_MODULE_4__configs_lighting__).forEach(light => scene.add(light));
+  scene.background = new __WEBPACK_IMPORTED_MODULE_0_three__["b" /* Color */]( 0x87cefa );
 
 
+  sphere = Object(__WEBPACK_IMPORTED_MODULE_5__player__["a" /* newPlayer */])();
+  scene.add( sphere.add(__WEBPACK_IMPORTED_MODULE_3__configs_view_js__["a" /* camera */]) );
+  __WEBPACK_IMPORTED_MODULE_3__configs_view_js__["a" /* camera */].position.z = 4;
+
+  run = requestAnimationFrame(update);
+}
+start();
+window.start = start;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////
 
 
 //Configure scene.
-__WEBPACK_IMPORTED_MODULE_1_lodash_values___default()(__WEBPACK_IMPORTED_MODULE_4__configs_lighting__).forEach(light => scene.add(light));
-scene.background = new __WEBPACK_IMPORTED_MODULE_0_three__["b" /* Color */]( 0x87cefa );
-
-
-scene.add( __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].add(__WEBPACK_IMPORTED_MODULE_3__configs_view_js__["a" /* camera */]) );
-__WEBPACK_IMPORTED_MODULE_3__configs_view_js__["a" /* camera */].position.z = 4;
 
 const baddies = [];
 
@@ -46563,28 +46593,28 @@ const baddies = [];
 // }
 
 function applySteering(){
-  __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].tau = new __WEBPACK_IMPORTED_MODULE_0_three__["m" /* Vector2 */](0,0);
-  __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].tau.x += __WEBPACK_IMPORTED_MODULE_2__configs_controls__["a" /* controls */].up    ? .002 : 0;
-  __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].tau.x -= __WEBPACK_IMPORTED_MODULE_2__configs_controls__["a" /* controls */].down  ? .002 : 0;
-  __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].tau.y += __WEBPACK_IMPORTED_MODULE_2__configs_controls__["a" /* controls */].left  ? .002 : 0;
-  __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].tau.y -= __WEBPACK_IMPORTED_MODULE_2__configs_controls__["a" /* controls */].right ? .002 : 0;
+  sphere.tau = new __WEBPACK_IMPORTED_MODULE_0_three__["m" /* Vector2 */](0,0);
+  sphere.tau.x += __WEBPACK_IMPORTED_MODULE_2__configs_controls__["a" /* controls */].up    ? .002 : 0;
+  sphere.tau.x -= __WEBPACK_IMPORTED_MODULE_2__configs_controls__["a" /* controls */].down  ? .002 : 0;
+  sphere.tau.y += __WEBPACK_IMPORTED_MODULE_2__configs_controls__["a" /* controls */].left  ? .002 : 0;
+  sphere.tau.y -= __WEBPACK_IMPORTED_MODULE_2__configs_controls__["a" /* controls */].right ? .002 : 0;
 
-  __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].omega.multiplyScalar(.95).add(__WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].tau);
+  sphere.omega.multiplyScalar(.95).add(sphere.tau);
 
-  __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].rotateX(__WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].omega.x);
-  __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].rotateY(__WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].omega.y);
+  sphere.rotateX(sphere.omega.x);
+  sphere.rotateY(sphere.omega.y);
 }
 
 function movePlayer(){
   let accel = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector3 */](0,0,0);
   if (__WEBPACK_IMPORTED_MODULE_2__configs_controls__["a" /* controls */].forward) {
     let direction = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector3 */](0,0,-.003);
-    let forward = new __WEBPACK_IMPORTED_MODULE_0_three__["d" /* Matrix4 */]().extractRotation(__WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].matrix);
+    let forward = new __WEBPACK_IMPORTED_MODULE_0_three__["d" /* Matrix4 */]().extractRotation(sphere.matrix);
     accel = direction.applyMatrix4( forward );
   }
   //multiply by .99 to simulate friction.
-  __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].velocity.multiplyScalar(.99).add(accel);
-  __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].position.add(__WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].velocity);
+  sphere.velocity.multiplyScalar(.99).add(accel);
+  sphere.position.add(sphere.velocity);
 }
 
 
@@ -46596,8 +46626,7 @@ function onCollision(hoop){
   hoop.material.opacity = .5;
   hoop.material.needsUpdate = true;
   hoop.status = -1;
-  __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].add(Object(__WEBPACK_IMPORTED_MODULE_6__text_alert__["a" /* minus */])());
-  hoopPath.addHoop(scene);
+  sphere.add(Object(__WEBPACK_IMPORTED_MODULE_7__text_alert__["a" /* minus */])());
   timer -= timer < 60 ? timer : 60;
 
 }
@@ -46607,7 +46636,7 @@ function didCollide(toPlane, toCenter, hoop){
   //both of the .5s below are for collision leniency.
   const hoopRadius    = hoop.geometry.parameters.radius;
   const tubeRadius    = hoop.geometry.parameters.tube;
-  const sphereRadius  = __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].geometry.parameters.radius;
+  const sphereRadius  = sphere.geometry.parameters.radius;
   const offset = tubeRadius + sphereRadius;
   const leniency = .2;
 
@@ -46621,9 +46650,9 @@ function updateHoop(hoop){
   if (hoop.status === -1 || hoop.status === 1) return;
   const hoopRadius = hoop.geometry.parameters.radius;
   const tubeRadius = hoop.geometry.parameters.tube;
-  const sphereRadius = __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].geometry.parameters.radius;
+  const sphereRadius = sphere.geometry.parameters.radius;
 
-  const distanceVec = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector3 */]().subVectors(hoop.position,__WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].position);
+  const distanceVec = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector3 */]().subVectors(hoop.position,sphere.position);
   const distance = distanceVec.length();
   const rotation = new __WEBPACK_IMPORTED_MODULE_0_three__["d" /* Matrix4 */]().extractRotation(hoop.matrix);
   const normal = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector3 */](0,0,1).applyMatrix4(rotation);
@@ -46643,8 +46672,7 @@ function updateHoop(hoop){
     hoop.status = 1;
     hoop.material.color = new __WEBPACK_IMPORTED_MODULE_0_three__["b" /* Color */](0x55aa55);
     console.log(score);
-    __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].add(Object(__WEBPACK_IMPORTED_MODULE_6__text_alert__["b" /* plus */])());
-    hoopPath.addHoop(scene);
+    sphere.add(Object(__WEBPACK_IMPORTED_MODULE_7__text_alert__["b" /* plus */])());
     timer += 120;
   }
 }
@@ -46655,14 +46683,16 @@ function update(){
   document.getElementById('stats').innerHTML = `Score: ${score} Time: ${timer}`
   if (timer <= 0){
     document.getElementById('modal').classList.remove('hidden');
-    document.getElementById('final-score').innerHTML = score;
+    document.getElementById('message').innerHTML = `<p>GAME OVER</p><p>SCORE:</p><p>${score}</p>`;
     return;
   }
+  if (duration === 90){duration=0; hoopPath.addHoop();}
   timer--;
+  duration++;
 
 
-  __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].children.slice(1).forEach(child => {
-    if (child.frameLife > 70) __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].remove(child);
+  sphere.children.slice(1).forEach(child => {
+    if (child.frameLife > 70) sphere.remove(child);
     child.rotateY(.08);
     child.frameLife++;
   })
@@ -46684,10 +46714,8 @@ function update(){
 
 
   __WEBPACK_IMPORTED_MODULE_3__configs_view_js__["b" /* renderer */].render(scene, __WEBPACK_IMPORTED_MODULE_3__configs_view_js__["a" /* camera */]);
-  requestAnimationFrame(update);
+  run = requestAnimationFrame(update);
 }
-
-requestAnimationFrame(update);
 
 
 /***/ }),
@@ -47594,18 +47622,18 @@ const controls = {
 
 
 window.addEventListener('keydown', e=>{
-  if (e.keyCode === 90)   controls.up      = true;
-  if (e.keyCode === 88)   controls.down    = true;
-  if (e.keyCode === 190)  controls.left    = true;
-  if (e.keyCode === 191)  controls.right   = true;
+  if (e.keyCode === 38)   controls.up      = true;
+  if (e.keyCode === 40)   controls.down    = true;
+  if (e.keyCode === 37)  controls.left    = true;
+  if (e.keyCode === 39)  controls.right   = true;
   if (e.keyCode === 32)   controls.forward = true;
 })
 
 window.addEventListener('keyup', e=>{
-  if (e.keyCode === 90)   controls.up      = false;
-  if (e.keyCode === 88)   controls.down    = false;
-  if (e.keyCode === 190)  controls.left    = false;
-  if (e.keyCode === 191)  controls.right   = false;
+  if (e.keyCode === 38)   controls.up      = false;
+  if (e.keyCode === 40)   controls.down    = false;
+  if (e.keyCode === 37)  controls.left    = false;
+  if (e.keyCode === 39)  controls.right   = false;
   if (e.keyCode === 32)   controls.forward = false;
 })
 
@@ -47672,7 +47700,6 @@ const ambientLight = new __WEBPACK_IMPORTED_MODULE_0_three__["a" /* AmbientLight
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return sphere; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_three__ = __webpack_require__(0);
 
 
@@ -47697,18 +47724,21 @@ const sphereMaterial =
       color: 0xffffff
     });
 
-const sphere = new __WEBPACK_IMPORTED_MODULE_0_three__["e" /* Mesh */](
-  new __WEBPACK_IMPORTED_MODULE_0_three__["j" /* SphereGeometry */](
-    radius,
-    segments,
-    rings
-  ),
-
-  sphereMaterial
-)
-sphere.tau = new __WEBPACK_IMPORTED_MODULE_0_three__["m" /* Vector2 */](0,0);
-sphere.omega = new __WEBPACK_IMPORTED_MODULE_0_three__["m" /* Vector2 */](0,0);
-sphere.velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector3 */](0,0,0);
+const newPlayer = () => {
+  const sphere = new __WEBPACK_IMPORTED_MODULE_0_three__["e" /* Mesh */](
+    new __WEBPACK_IMPORTED_MODULE_0_three__["j" /* SphereGeometry */](
+      radius,
+      segments,
+      rings
+    ),
+    sphereMaterial
+  )
+  sphere.tau = new __WEBPACK_IMPORTED_MODULE_0_three__["m" /* Vector2 */](0,0);
+  sphere.omega = new __WEBPACK_IMPORTED_MODULE_0_three__["m" /* Vector2 */](0,0);
+  sphere.velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector3 */](0,0,0);
+  return sphere;
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = newPlayer;
 
 
 
@@ -47742,9 +47772,9 @@ sphere.velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector3 */](0,0
 		curveSegments: 12,
 	} );
 
-  gminus.translate(-.2,-.1,.7);
+  gminus.translate(-.2,-.1,1);
   gminus.rotateY(Math.PI);
-  gplus.translate(-.2,-.1,.7);
+  gplus.translate(-.2,-.1,1);
   gplus.rotateY(Math.PI);
 
 const black = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* MeshLambertMaterial */]({color: 0x000000});

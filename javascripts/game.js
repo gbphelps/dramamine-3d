@@ -1,38 +1,68 @@
 import * as THREE from 'three';
 import values from 'lodash/values'
 
-import { controls } from './configs/controls';
+import { controls, handleKeydown, handleKeyup } from './configs/controls';
 import { camera, renderer } from './configs/view.js';
 import * as lights from './configs/lighting';
 
-import { sphere } from './player';
-
+import { newPlayer } from './player';
+import HoopPath from './hoopPath';
 // import { makeBaddie } from './baddie';
 
 import { plus, minus } from './text_alert';
-const scene = new THREE.Scene();
-let score = 0;
-let timer = 600;
 
 
-////////////
-import HoopPath from './hoopPath';
-const hoopPath = new HoopPath(scene);
-////////////
 
-let hoops = hoopPath.hoops;
-let dots = hoopPath.dots;
+let scene, hoopPath, hoops, dots, score, timer, duration, sphere, run;
+
+const start = () => {
+  window.cancelAnimationFrame(run);
+
+  scene = new THREE.Scene();
+  hoopPath = new HoopPath(scene);
+  hoops = hoopPath.hoops;
+  dots = hoopPath.dots;
+
+  score = 0;
+  timer = 2000;
+  duration = 0;
+
+  values(lights).forEach(light => scene.add(light));
+  scene.background = new THREE.Color( 0x87cefa );
 
 
+  sphere = newPlayer();
+  scene.add( sphere.add(camera) );
+  camera.position.z = 4;
+
+  run = requestAnimationFrame(update);
+}
+start();
+window.start = start;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////
 
 
 //Configure scene.
-values(lights).forEach(light => scene.add(light));
-scene.background = new THREE.Color( 0x87cefa );
-
-
-scene.add( sphere.add(camera) );
-camera.position.z = 4;
 
 const baddies = [];
 
@@ -78,7 +108,6 @@ function onCollision(hoop){
   hoop.material.needsUpdate = true;
   hoop.status = -1;
   sphere.add(minus());
-  hoopPath.addHoop(scene);
   timer -= timer < 60 ? timer : 60;
 
 }
@@ -125,7 +154,6 @@ function updateHoop(hoop){
     hoop.material.color = new THREE.Color(0x55aa55);
     console.log(score);
     sphere.add(plus());
-    hoopPath.addHoop(scene);
     timer += 120;
   }
 }
@@ -136,10 +164,12 @@ function update(){
   document.getElementById('stats').innerHTML = `Score: ${score} Time: ${timer}`
   if (timer <= 0){
     document.getElementById('modal').classList.remove('hidden');
-    document.getElementById('final-score').innerHTML = score;
+    document.getElementById('message').innerHTML = `<p>GAME OVER</p><p>SCORE:</p><p>${score}</p>`;
     return;
   }
+  if (duration === 90){duration=0; hoopPath.addHoop();}
   timer--;
+  duration++;
 
 
   sphere.children.slice(1).forEach(child => {
@@ -165,7 +195,5 @@ function update(){
 
 
   renderer.render(scene, camera);
-  requestAnimationFrame(update);
+  run = requestAnimationFrame(update);
 }
-
-requestAnimationFrame(update);

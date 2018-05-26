@@ -16,9 +16,9 @@ import font from 'three/examples/fonts/helvetiker_regular.typeface.json';
 		curveSegments: 12,
 	} );
 
-  gminus.translate(-.2,-.1,.7);
+  gminus.translate(-.2,-.1,1);
   gminus.rotateY(Math.PI);
-  gplus.translate(-.2,-.1,.7);
+  gplus.translate(-.2,-.1,1);
   gplus.rotateY(Math.PI);
 
 const black = new THREE.MeshLambertMaterial({color: 0x000000});
