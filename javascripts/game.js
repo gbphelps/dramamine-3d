@@ -6,7 +6,7 @@ import { camera, renderer } from './configs/view.js';
 import * as lights from './configs/lighting';
 
 import { sphere } from './player';
-import { randomHoop } from './hoops';
+import { randomHoop, hoopPath } from './hoops';
 import { makeBaddie } from './baddie';
 
 import { text } from './text_alert';
@@ -14,23 +14,30 @@ import { text } from './text_alert';
 let score = 0;
 
 
+let hoops;
+let positions;
+[hoops, positions] = hoopPath(20);
+window.hoopPath = hoopPath;
+
 
 //Configure scene.
 const scene = new THREE.Scene();
 values(lights).forEach(light => scene.add(light));
 scene.background = new THREE.Color( 0x87cefa );
 
+hoops.forEach(hoop => scene.add(hoop));
 scene.add( sphere.add(camera) );
 camera.position.z = 4;
 
-const hoops = [];
-
-for (var i = 0; i < 20; i++) {
-
-  const hoop = randomHoop();
-  scene.add(hoop);
-  hoops.push(hoop);
-}
+////BRING IT BACK WHEN DONE
+// const hoops = [];
+//
+// for (var i = 0; i < 20; i++) {
+//
+//   const hoop = randomHoop();
+//   scene.add(hoop);
+//   hoops.push(hoop);
+// }
 
 const baddies = [];
 
