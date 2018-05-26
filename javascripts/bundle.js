@@ -46531,22 +46531,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
+const scene = new __WEBPACK_IMPORTED_MODULE_0_three__["Scene"]();
 let score = 0;
 
 
 let hoops;
 let positions;
-[hoops, positions] = Object(__WEBPACK_IMPORTED_MODULE_6__hoops__["a" /* hoopPath */])(20);
-window.hoopPath = __WEBPACK_IMPORTED_MODULE_6__hoops__["a" /* hoopPath */];
+let dots;
+[hoops, positions, dots] = Object(__WEBPACK_IMPORTED_MODULE_6__hoops__["a" /* hoopPath */])(20);
+hoops.forEach(hoop => scene.add(hoop));
+dots.forEach(dot => scene.add(dot));
+
+console.log(dots);
+
+// const g = new THREE.Geometry();
+// g.vertices = positions;
+// const m = new THREE.LineDashedMaterial( {
+// 	color: 0xffffff,
+// 	scale: 1,
+// 	dashSize: 3,
+// 	gapSize: 3,
+// } );
+// const line = new THREE.Line(g,m);
+// line.computeLineDistances();
+//
+// scene.add( line );
+
 
 
 //Configure scene.
-const scene = new __WEBPACK_IMPORTED_MODULE_0_three__["Scene"]();
 __WEBPACK_IMPORTED_MODULE_1_lodash_values___default()(__WEBPACK_IMPORTED_MODULE_4__configs_lighting__).forEach(light => scene.add(light));
 scene.background = new __WEBPACK_IMPORTED_MODULE_0_three__["Color"]( 0x87cefa );
 
-hoops.forEach(hoop => scene.add(hoop));
+
 scene.add( __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].add(__WEBPACK_IMPORTED_MODULE_3__configs_view_js__["a" /* camera */]) );
 __WEBPACK_IMPORTED_MODULE_3__configs_view_js__["a" /* camera */].position.z = 4;
 
@@ -47747,6 +47764,17 @@ const randomHoop = () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 const hoopPath = (numHoops) => {
 
   const radius = 2;
@@ -47755,15 +47783,12 @@ const hoopPath = (numHoops) => {
   const tsegs = 20;
   const color = 0x555555;
 
-  const m = new __WEBPACK_IMPORTED_MODULE_0_three__["MeshLambertMaterial"]({ color });
-  const g = new __WEBPACK_IMPORTED_MODULE_0_three__["TorusGeometry"](radius, tube, rsegs, tsegs);
 
-
-
-  const rand = .8;
+  const offChance= .1;
+  const onChance = .4;
 
   const omega = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector2"](0,0);
-  const tauFactor = .4;
+  const tauFactor = .7;
   const spacing = 10;
 
   const position = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"](0,0,0);
@@ -47773,9 +47798,14 @@ const hoopPath = (numHoops) => {
   const nav = {
     up:     {on:false, coord:'x', orientation: -1},
     down:   {on:false, coord:'x', orientation: 1},
-    left:   {on:false, coord:'y', orientation: -1},
-    right:  {on:false, coord:'y', orientation: 1},
+    left:   {on:false, coord:'y', orientation: 1},
+    right:  {on:false, coord:'y', orientation: -1},
   };
+
+  const dots = [];
+
+
+
 
   const hoops = [];
   for (let i = 0; i < numHoops; i++) {
@@ -47783,10 +47813,12 @@ const hoopPath = (numHoops) => {
 
     ['up','down','left','right'].forEach( dir => {
 
-      if (nav[dir].on) tau[nav[dir].coord] += nav[dir].orientation * tauFactor;
-      if (Math.random() > rand) nav[dir].on = !nav[dir].on;
-    });
+      if (nav[dir].on){
+        tau[nav[dir].coord] += nav[dir].orientation * tauFactor;
 
+      }
+      if (Math.random() < offChance) nav[dir].on = !nav[dir].on;
+    });
 
 
     const omegaPrev = omega.clone();
@@ -47798,20 +47830,38 @@ const hoopPath = (numHoops) => {
 
     velocity.applyMatrix4(rotX).applyMatrix4(rotY);
 
+
+
+    ///////////////////////////////////////////////////////////
+    const numdots = 3;
+    for (let j = 0; j < numdots; j++) {
+      const m = new __WEBPACK_IMPORTED_MODULE_0_three__["MeshLambertMaterial"]({ color: 0xFFFFFF });
+      const g = new __WEBPACK_IMPORTED_MODULE_0_three__["SphereGeometry"](.2,8,8);
+      const increment = velocity.clone().multiplyScalar(1 / numdots * j)
+      const position = positions[i].clone().add(increment);
+      const dot = new __WEBPACK_IMPORTED_MODULE_0_three__["Mesh"](g,m);
+      dot.position.set(position.x, position.y, position.z);
+      dot.rotateZ(Math.PI/4);
+      dots.push(dot);
+    }
+    ///////////////////////////////////////////////////////////
     position.add(velocity);
     positions.push(position.clone());
 
+
+    const m = new __WEBPACK_IMPORTED_MODULE_0_three__["MeshLambertMaterial"]({ color });
+    const g = new __WEBPACK_IMPORTED_MODULE_0_three__["TorusGeometry"](radius, tube, rsegs, tsegs);
     const hoop = new __WEBPACK_IMPORTED_MODULE_0_three__["Mesh"](g,m);
+
     hoop.status = 0;
     hoop.omega = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"]();
     hoop.velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"]();
     hoop.position.set(position.x, position.y, position.z);
-    hoop.rotateX(-(omega.x + omegaPrev.x)/2);
-    hoop.rotateY(-(omega.y + omegaPrev.y)/2);
+    hoop.lookAt(positions[i])
     hoops.push(hoop);
   }
 
-  return [hoops, positions];
+  return [hoops, positions, dots];
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = hoopPath;
 

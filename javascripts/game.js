@@ -10,22 +10,39 @@ import { randomHoop, hoopPath } from './hoops';
 import { makeBaddie } from './baddie';
 
 import { text } from './text_alert';
-
+const scene = new THREE.Scene();
 let score = 0;
 
 
 let hoops;
 let positions;
-[hoops, positions] = hoopPath(20);
-window.hoopPath = hoopPath;
+let dots;
+[hoops, positions, dots] = hoopPath(20);
+hoops.forEach(hoop => scene.add(hoop));
+dots.forEach(dot => scene.add(dot));
+
+console.log(dots);
+
+// const g = new THREE.Geometry();
+// g.vertices = positions;
+// const m = new THREE.LineDashedMaterial( {
+// 	color: 0xffffff,
+// 	scale: 1,
+// 	dashSize: 3,
+// 	gapSize: 3,
+// } );
+// const line = new THREE.Line(g,m);
+// line.computeLineDistances();
+//
+// scene.add( line );
+
 
 
 //Configure scene.
-const scene = new THREE.Scene();
 values(lights).forEach(light => scene.add(light));
 scene.background = new THREE.Color( 0x87cefa );
 
-hoops.forEach(hoop => scene.add(hoop));
+
 scene.add( sphere.add(camera) );
 camera.position.z = 4;
 

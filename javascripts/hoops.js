@@ -27,6 +27,17 @@ export const randomHoop = () => {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
 export const hoopPath = (numHoops) => {
 
   const radius = 2;
@@ -35,15 +46,12 @@ export const hoopPath = (numHoops) => {
   const tsegs = 20;
   const color = 0x555555;
 
-  const m = new THREE.MeshLambertMaterial({ color });
-  const g = new THREE.TorusGeometry(radius, tube, rsegs, tsegs);
 
-
-
-  const rand = .8;
+  const offChance= .1;
+  const onChance = .4;
 
   const omega = new THREE.Vector2(0,0);
-  const tauFactor = .4;
+  const tauFactor = .7;
   const spacing = 10;
 
   const position = new THREE.Vector3(0,0,0);
@@ -53,9 +61,14 @@ export const hoopPath = (numHoops) => {
   const nav = {
     up:     {on:false, coord:'x', orientation: -1},
     down:   {on:false, coord:'x', orientation: 1},
-    left:   {on:false, coord:'y', orientation: -1},
-    right:  {on:false, coord:'y', orientation: 1},
+    left:   {on:false, coord:'y', orientation: 1},
+    right:  {on:false, coord:'y', orientation: -1},
   };
+
+  const dots = [];
+
+
+
 
   const hoops = [];
   for (let i = 0; i < numHoops; i++) {
@@ -63,10 +76,12 @@ export const hoopPath = (numHoops) => {
 
     ['up','down','left','right'].forEach( dir => {
 
-      if (nav[dir].on) tau[nav[dir].coord] += nav[dir].orientation * tauFactor;
-      if (Math.random() > rand) nav[dir].on = !nav[dir].on;
-    });
+      if (nav[dir].on){
+        tau[nav[dir].coord] += nav[dir].orientation * tauFactor;
 
+      }
+      if (Math.random() < offChance) nav[dir].on = !nav[dir].on;
+    });
 
 
     const omegaPrev = omega.clone();
@@ -78,18 +93,36 @@ export const hoopPath = (numHoops) => {
 
     velocity.applyMatrix4(rotX).applyMatrix4(rotY);
 
+
+
+    ///////////////////////////////////////////////////////////
+    const numdots = 3;
+    for (let j = 0; j < numdots; j++) {
+      const m = new THREE.MeshLambertMaterial({ color: 0xFFFFFF });
+      const g = new THREE.SphereGeometry(.2,8,8);
+      const increment = velocity.clone().multiplyScalar(1 / numdots * j)
+      const position = positions[i].clone().add(increment);
+      const dot = new THREE.Mesh(g,m);
+      dot.position.set(position.x, position.y, position.z);
+      dot.rotateZ(Math.PI/4);
+      dots.push(dot);
+    }
+    ///////////////////////////////////////////////////////////
     position.add(velocity);
     positions.push(position.clone());
 
+
+    const m = new THREE.MeshLambertMaterial({ color });
+    const g = new THREE.TorusGeometry(radius, tube, rsegs, tsegs);
     const hoop = new THREE.Mesh(g,m);
+
     hoop.status = 0;
     hoop.omega = new THREE.Vector3();
     hoop.velocity = new THREE.Vector3();
     hoop.position.set(position.x, position.y, position.z);
-    hoop.rotateX(-(omega.x + omegaPrev.x)/2);
-    hoop.rotateY(-(omega.y + omegaPrev.y)/2);
+    hoop.lookAt(positions[i])
     hoops.push(hoop);
   }
 
-  return [hoops, positions];
+  return [hoops, positions, dots];
 }
