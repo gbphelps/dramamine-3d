@@ -7,7 +7,7 @@ import * as lights from './configs/lighting';
 
 import { sphere } from './player';
 import { randomHoop } from './hoops';
-import { randomSphere } from './spheres';
+import { makeBaddie } from './baddie';
 
 let score = 0;
 
@@ -31,9 +31,10 @@ for (var i = 0; i < 20; i++) {
 
 const baddies = [];
 
-for (var i = 0; i < 4; i++){
-  const baddie = randomSphere();
+for (var i = 0; i < 1; i++){
+  const baddie = makeBaddie();
   baddies.push(baddie);
+  baddie.lookAt(sphere.position);
   scene.add(baddie);
 }
 
@@ -131,10 +132,14 @@ function update(){
   movePlayer();
 
   baddies.forEach(baddie => {
-    let accel = new THREE.Vector3().subVectors(sphere.position, baddie.position);
-    accel = accel.multiplyScalar(1 / accel.length()*.003);
+    let accel =
+      new THREE.Vector3()
+        .subVectors(sphere.position, baddie.position)
+        .normalize()
+        .multiplyScalar(.003);
     baddie.velocity.multiplyScalar(.99).add(accel);
     baddie.position.add(baddie.velocity);
+    baddie.lookAt(sphere.position);
   });
 
 
