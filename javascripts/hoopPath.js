@@ -23,11 +23,13 @@ export const generateHoop = () => {
 
 export default class Hoopie {
   constructor(
+    scene,
     toggleChance = .1,
     omega0 = new THREE.Vector2(-.2,0),
     tauFactor = .5,
     spacing = 15,
     numHoops = 10){
+      this.scene = scene;
       this.toggleChance = toggleChance;
       this.omega = omega0;
       this.tauFactor = tauFactor;
@@ -46,45 +48,15 @@ export default class Hoopie {
       this.initializeHoops();
   }
 
-  initializeHoops(){
+  initializeHoops(scene){
     for (let i = 0; i < this.numHoops; i++) {
-      const tau = new THREE.Vector2(0,0);
-
-      ['up','down','left','right'].forEach( dir => {
-
-        if (this.nav[dir].on){
-          tau[this.nav[dir].coord] += this.nav[dir].orientation * this.tauFactor;
-        }
-        if (Math.random() < this.toggleChance) this.nav[dir].on = !this.nav[dir].on;
-      });
-
-
-      this.omega.multiplyScalar(.9).add(tau);
-
-      const velocity = new THREE.Vector3(0,0, -1 * this.spacing);
-      const rotX = new THREE.Matrix4().makeRotationX(this.omega.x)
-      const rotY = new THREE.Matrix4().makeRotationY(this.omega.y);
-
-      velocity.applyMatrix4(rotX).applyMatrix4(rotY);
-
-
-      this.dotLine(this.positions[i], velocity);
-
-      const position = this.positions[i].clone().add(velocity);
-      this.positions.push(position.clone());
-
-
-      const hoop = generateHoop();
-
-      hoop.position.set(position.x, position.y, position.z);
-      hoop.lookAt(this.positions[i])
-      this.hoops.push(hoop);
+      this.addHoop();
     }
   }
 
 
 
-  addHoop(scene){
+  addHoop(){
     const tau = new THREE.Vector2(0,0);
     const lastPos = this.positions[this.positions.length - 1];
 
@@ -116,8 +88,9 @@ export default class Hoopie {
 
     hoop.position.set(position.x, position.y, position.z);
     hoop.lookAt(lastPos)
+
     this.hoops.push(hoop);
-    scene.add(hoop);
+    this.scene.add(hoop);
   }
 
 
@@ -130,6 +103,7 @@ export default class Hoopie {
       const dot = new THREE.Mesh(g,m);
       dot.position.set(position.x, position.y, position.z);
       this.dots.push(dot);
+      this.scene.add(dot);
     }
   }
 }

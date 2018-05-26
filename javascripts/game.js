@@ -6,8 +6,8 @@ import { camera, renderer } from './configs/view.js';
 import * as lights from './configs/lighting';
 
 import { sphere } from './player';
-// import { randomHoop, hoopPath } from './hoops';
-import { makeBaddie } from './baddie';
+
+// import { makeBaddie } from './baddie';
 
 import { plus, minus } from './text_alert';
 const scene = new THREE.Scene();
@@ -15,16 +15,12 @@ let score = 0;
 
 
 ////////////
-import Hoopie from './hoopPath';
-const hoopie = new Hoopie();
-window.hoopie = hoopie;
+import HoopPath from './hoopPath';
+const hoopPath = new HoopPath(scene);
 ////////////
 
-let hoops = hoopie.hoops;
-let dots = hoopie.dots;
-
-hoops.forEach(hoop => scene.add(hoop));
-dots.forEach(dot => scene.add(dot));
+let hoops = hoopPath.hoops;
+let dots = hoopPath.dots;
 
 
 
@@ -81,6 +77,7 @@ function onCollision(hoop){
   hoop.material.needsUpdate = true;
   hoop.status = -1;
   sphere.add(minus());
+  hoopPath.addHoop(scene);
 }
 
 
@@ -124,7 +121,7 @@ function updateHoop(hoop){
     hoop.material.color = new THREE.Color(0x55aa55);
     console.log(score);
     sphere.add(plus());
-    hoopie.addHoop(scene);
+    hoopPath.addHoop(scene);
   }
 
   hoop.rotateX(hoop.omega.x);
@@ -146,16 +143,16 @@ function update(){
   hoops.forEach(hoop => updateHoop(hoop));
   movePlayer();
 
-  baddies.forEach(baddie => {
-    let accel =
-      new THREE.Vector3()
-        .subVectors(sphere.position, baddie.position)
-        .normalize()
-        .multiplyScalar(.003);
-    baddie.velocity.multiplyScalar(.99).add(accel);
-    baddie.position.add(baddie.velocity);
-    baddie.lookAt(sphere.position);
-  });
+  // baddies.forEach(baddie => {
+  //   let accel =
+  //     new THREE.Vector3()
+  //       .subVectors(sphere.position, baddie.position)
+  //       .normalize()
+  //       .multiplyScalar(.003);
+  //   baddie.velocity.multiplyScalar(.99).add(accel);
+  //   baddie.position.add(baddie.velocity);
+  //   baddie.lookAt(sphere.position);
+  // });
 
 
   renderer.render(scene, camera);
