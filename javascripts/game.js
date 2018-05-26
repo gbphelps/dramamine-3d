@@ -12,6 +12,7 @@ import { sphere } from './player';
 import { plus, minus } from './text_alert';
 const scene = new THREE.Scene();
 let score = 0;
+let timer = 600;
 
 
 ////////////
@@ -78,6 +79,8 @@ function onCollision(hoop){
   hoop.status = -1;
   sphere.add(minus());
   hoopPath.addHoop(scene);
+  timer -= timer < 60 ? timer : 60;
+
 }
 
 
@@ -87,9 +90,10 @@ function didCollide(toPlane, toCenter, hoop){
   const tubeRadius    = hoop.geometry.parameters.tube;
   const sphereRadius  = sphere.geometry.parameters.radius;
   const offset = tubeRadius + sphereRadius;
+  const leniency = .2;
 
-  return toPlane < (offset -.5) &&
-      (hoopRadius - offset +.5) < toCenter &&
+  return toPlane < (offset - leniency) &&
+      (hoopRadius - offset + leniency) < toCenter &&
       toCenter < (hoopRadius + offset)
 }
 
@@ -122,16 +126,21 @@ function updateHoop(hoop){
     console.log(score);
     sphere.add(plus());
     hoopPath.addHoop(scene);
+    timer += 120;
   }
-
-  hoop.rotateX(hoop.omega.x);
-  hoop.rotateY(hoop.omega.y);
-  hoop.rotateZ(hoop.omega.z);
-  hoop.position.add(hoop.velocity);
 }
 
 
 function update(){
+
+  document.getElementById('stats').innerHTML = `Score: ${score} Time: ${timer}`
+  if (timer <= 0){
+    document.getElementById('modal').classList.remove('hidden');
+    document.getElementById('final-score').innerHTML = score;
+    return;
+  }
+  timer--;
+
 
   sphere.children.slice(1).forEach(child => {
     if (child.frameLife > 70) sphere.remove(child);

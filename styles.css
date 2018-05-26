@@ -1,0 +1,52 @@
+
+
+
+#title{
+  width: 100%;
+  position:fixed;
+  top: 0px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#stats{
+  position: fixed;
+  bottom: 0px;
+}
+
+body{
+  font-family: 'Press Start 2P';
+  font-size: 30px;
+  margin: 20px;
+  position: absolute;
+}
+
+
+#modal-screen{
+  height: 100%;
+  width: 100%;
+  background: black;
+  position:fixed;
+  top:0;
+  left:0;
+  opacity:.5;
+}
+
+#modal-text{
+  position:absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  height:200px;
+  width:400px;
+  margin:auto;
+  background:black;
+  color:white;
+  text-align:center;
+  padding-top: 20px;
+}
+
+.hidden{
+  display:none;
+}

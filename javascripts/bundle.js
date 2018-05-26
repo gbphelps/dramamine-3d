@@ -46531,6 +46531,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 const scene = new __WEBPACK_IMPORTED_MODULE_0_three__["i" /* Scene */]();
 let score = 0;
+let timer = 600;
 
 
 ////////////
@@ -46597,6 +46598,8 @@ function onCollision(hoop){
   hoop.status = -1;
   __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].add(Object(__WEBPACK_IMPORTED_MODULE_6__text_alert__["a" /* minus */])());
   hoopPath.addHoop(scene);
+  timer -= timer < 60 ? timer : 60;
+
 }
 
 
@@ -46606,9 +46609,10 @@ function didCollide(toPlane, toCenter, hoop){
   const tubeRadius    = hoop.geometry.parameters.tube;
   const sphereRadius  = __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].geometry.parameters.radius;
   const offset = tubeRadius + sphereRadius;
+  const leniency = .2;
 
-  return toPlane < (offset -.5) &&
-      (hoopRadius - offset +.5) < toCenter &&
+  return toPlane < (offset - leniency) &&
+      (hoopRadius - offset + leniency) < toCenter &&
       toCenter < (hoopRadius + offset)
 }
 
@@ -46641,16 +46645,21 @@ function updateHoop(hoop){
     console.log(score);
     __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].add(Object(__WEBPACK_IMPORTED_MODULE_6__text_alert__["b" /* plus */])());
     hoopPath.addHoop(scene);
+    timer += 120;
   }
-
-  hoop.rotateX(hoop.omega.x);
-  hoop.rotateY(hoop.omega.y);
-  hoop.rotateZ(hoop.omega.z);
-  hoop.position.add(hoop.velocity);
 }
 
 
 function update(){
+
+  document.getElementById('stats').innerHTML = `Score: ${score} Time: ${timer}`
+  if (timer <= 0){
+    document.getElementById('modal').classList.remove('hidden');
+    document.getElementById('final-score').innerHTML = score;
+    return;
+  }
+  timer--;
+
 
   __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].children.slice(1).forEach(child => {
     if (child.frameLife > 70) __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].remove(child);
@@ -47738,12 +47747,12 @@ sphere.velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector3 */](0,0
   gplus.translate(-.2,-.1,.7);
   gplus.rotateY(Math.PI);
 
-const green = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* MeshLambertMaterial */]({color: 0x55aa55});
+const black = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* MeshLambertMaterial */]({color: 0x000000});
 const red = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* MeshLambertMaterial */]({color: 0xff0000});
 
 
 const plus = () => {
-  const object = new __WEBPACK_IMPORTED_MODULE_0_three__["e" /* Mesh */](gplus, green);
+  const object = new __WEBPACK_IMPORTED_MODULE_0_three__["e" /* Mesh */](gplus, black);
   object.frameLife = 0;
   return object;
 };

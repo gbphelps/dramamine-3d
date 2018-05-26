@@ -21,12 +21,12 @@ import font from 'three/examples/fonts/helvetiker_regular.typeface.json';
   gplus.translate(-.2,-.1,.7);
   gplus.rotateY(Math.PI);
 
-const green = new THREE.MeshLambertMaterial({color: 0x55aa55});
+const black = new THREE.MeshLambertMaterial({color: 0x000000});
 const red = new THREE.MeshLambertMaterial({color: 0xff0000});
 
 
 export const plus = () => {
-  const object = new THREE.Mesh(gplus, green);
+  const object = new THREE.Mesh(gplus, black);
   object.frameLife = 0;
   return object;
 };
