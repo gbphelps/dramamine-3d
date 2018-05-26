@@ -17,11 +17,10 @@ let score = 0;
 let hoops;
 let positions;
 let dots;
-[hoops, positions, dots] = hoopPath(20);
+[hoops, positions, dots] = hoopPath(30);
 hoops.forEach(hoop => scene.add(hoop));
 dots.forEach(dot => scene.add(dot));
 
-console.log(dots);
 
 
 
@@ -117,10 +116,9 @@ function updateHoop(hoop){
   //successfully cleared ring
     score += 1;
     hoop.status = 1;
-    hoop.material.color = new THREE.Color(0xFFFF00);
+    hoop.material.color = new THREE.Color(0x55aa55);
     console.log(score);
     sphere.add(plus());
-    console.log(sphere.children.slice(1));
   }
 
   hoop.rotateX(hoop.omega.x);

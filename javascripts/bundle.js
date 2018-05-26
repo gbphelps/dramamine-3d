@@ -46538,11 +46538,10 @@ let score = 0;
 let hoops;
 let positions;
 let dots;
-[hoops, positions, dots] = Object(__WEBPACK_IMPORTED_MODULE_6__hoops__["a" /* hoopPath */])(20);
+[hoops, positions, dots] = Object(__WEBPACK_IMPORTED_MODULE_6__hoops__["a" /* hoopPath */])(30);
 hoops.forEach(hoop => scene.add(hoop));
 dots.forEach(dot => scene.add(dot));
 
-console.log(dots);
 
 
 
@@ -46638,10 +46637,9 @@ function updateHoop(hoop){
   //successfully cleared ring
     score += 1;
     hoop.status = 1;
-    hoop.material.color = new __WEBPACK_IMPORTED_MODULE_0_three__["Color"](0xFFFF00);
+    hoop.material.color = new __WEBPACK_IMPORTED_MODULE_0_three__["Color"](0x55aa55);
     console.log(score);
     __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].add(Object(__WEBPACK_IMPORTED_MODULE_8__text_alert__["b" /* plus */])());
-    console.log(__WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].children.slice(1));
   }
 
   hoop.rotateX(hoop.omega.x);
@@ -47720,7 +47718,7 @@ const randomHoop = () => {
   const rsegs = 20;
   const tsegs = 20;
 
-  const color = 0x555555 ;
+  const color = 0xFFFF00;
 
   const z = (Math.random() + -.5) * 60;
   const y = (Math.random() -.5) * 30;
@@ -47758,15 +47756,15 @@ const hoopPath = (numHoops) => {
   const tube = .3;
   const rsegs = 20;
   const tsegs = 20;
-  const color = 0x555555;
+  const color = 0xbb9900;
 
 
-  const offChance= .1;
-  const onChance = .4;
+  const toggleChance= .1;
 
-  const omega = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector2"](0,0);
-  const tauFactor = .7;
-  const spacing = 10;
+
+  const omega = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector2"](.2,.2);
+  const tauFactor = .8;
+  const spacing = 15;
 
   const position = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"](0,0,0);
   const positions = [position.clone()];
@@ -47794,12 +47792,11 @@ const hoopPath = (numHoops) => {
         tau[nav[dir].coord] += nav[dir].orientation * tauFactor;
 
       }
-      if (Math.random() < offChance) nav[dir].on = !nav[dir].on;
+      if (Math.random() < toggleChance) nav[dir].on = !nav[dir].on;
     });
 
 
-    const omegaPrev = omega.clone();
-    omega.multiplyScalar(.9).add(tau);
+    omega.multiplyScalar(.95).add(tau);
 
     const velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector3"](0,0, -1* spacing);
     const rotX = new __WEBPACK_IMPORTED_MODULE_0_three__["Matrix4"]().makeRotationX(omega.x)
@@ -47810,7 +47807,7 @@ const hoopPath = (numHoops) => {
 
 
     ///////////////////////////////////////////////////////////
-    const numdots = 3;
+    const numdots = 4;
     for (let j = 0; j < numdots; j++) {
       const m = new __WEBPACK_IMPORTED_MODULE_0_three__["MeshLambertMaterial"]({ color: 0xFFFFFF });
       const g = new __WEBPACK_IMPORTED_MODULE_0_three__["SphereGeometry"](.2,8,8);
@@ -47838,7 +47835,7 @@ const hoopPath = (numHoops) => {
     hoops.push(hoop);
   }
 
-  return [hoops, positions, dots];
+  return [hoops, positions, dots, omega];
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = hoopPath;
 
@@ -47916,12 +47913,12 @@ const makeBaddie = () => {
   gplus.translate(-.2,-.1,.7);
   gplus.rotateY(Math.PI);
 
-const yellow = new __WEBPACK_IMPORTED_MODULE_0_three__["MeshLambertMaterial"]({color: 0xbb9900});
+const green = new __WEBPACK_IMPORTED_MODULE_0_three__["MeshLambertMaterial"]({color: 0x55aa55});
 const red = new __WEBPACK_IMPORTED_MODULE_0_three__["MeshLambertMaterial"]({color: 0xff0000});
 
 
 const plus = () => {
-  const object = new __WEBPACK_IMPORTED_MODULE_0_three__["Mesh"](gplus, yellow);
+  const object = new __WEBPACK_IMPORTED_MODULE_0_three__["Mesh"](gplus, green);
   object.frameLife = 0;
   return object;
 };

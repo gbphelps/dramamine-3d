@@ -8,7 +8,7 @@ export const randomHoop = () => {
   const rsegs = 20;
   const tsegs = 20;
 
-  const color = 0x555555 ;
+  const color = 0xFFFF00;
 
   const z = (Math.random() + -.5) * 60;
   const y = (Math.random() -.5) * 30;
@@ -44,15 +44,15 @@ export const hoopPath = (numHoops) => {
   const tube = .3;
   const rsegs = 20;
   const tsegs = 20;
-  const color = 0x555555;
+  const color = 0xbb9900;
 
 
-  const offChance= .1;
-  const onChance = .4;
+  const toggleChance= .1;
 
-  const omega = new THREE.Vector2(0,0);
-  const tauFactor = .7;
-  const spacing = 10;
+
+  const omega = new THREE.Vector2(.2,.2);
+  const tauFactor = .8;
+  const spacing = 15;
 
   const position = new THREE.Vector3(0,0,0);
   const positions = [position.clone()];
@@ -80,12 +80,11 @@ export const hoopPath = (numHoops) => {
         tau[nav[dir].coord] += nav[dir].orientation * tauFactor;
 
       }
-      if (Math.random() < offChance) nav[dir].on = !nav[dir].on;
+      if (Math.random() < toggleChance) nav[dir].on = !nav[dir].on;
     });
 
 
-    const omegaPrev = omega.clone();
-    omega.multiplyScalar(.9).add(tau);
+    omega.multiplyScalar(.95).add(tau);
 
     const velocity = new THREE.Vector3(0,0, -1* spacing);
     const rotX = new THREE.Matrix4().makeRotationX(omega.x)
@@ -96,7 +95,7 @@ export const hoopPath = (numHoops) => {
 
 
     ///////////////////////////////////////////////////////////
-    const numdots = 3;
+    const numdots = 4;
     for (let j = 0; j < numdots; j++) {
       const m = new THREE.MeshLambertMaterial({ color: 0xFFFFFF });
       const g = new THREE.SphereGeometry(.2,8,8);
@@ -124,5 +123,5 @@ export const hoopPath = (numHoops) => {
     hoops.push(hoop);
   }
 
-  return [hoops, positions, dots];
+  return [hoops, positions, dots, omega];
 }
