@@ -6,7 +6,7 @@ import { camera, renderer } from './configs/view.js';
 import * as lights from './configs/lighting';
 
 import { sphere } from './player';
-import { randomHoop, hoopPath } from './hoops';
+// import { randomHoop, hoopPath } from './hoops';
 import { makeBaddie } from './baddie';
 
 import { plus, minus } from './text_alert';
@@ -14,10 +14,15 @@ const scene = new THREE.Scene();
 let score = 0;
 
 
-let hoops;
-let positions;
-let dots;
-[hoops, positions, dots] = hoopPath(30);
+////////////
+import Hoopie from './hoopPath';
+const hoopie = new Hoopie();
+window.hoopie = hoopie;
+////////////
+
+let hoops = hoopie.hoops;
+let dots = hoopie.dots;
+
 hoops.forEach(hoop => scene.add(hoop));
 dots.forEach(dot => scene.add(dot));
 
@@ -119,6 +124,7 @@ function updateHoop(hoop){
     hoop.material.color = new THREE.Color(0x55aa55);
     console.log(score);
     sphere.add(plus());
+    hoopie.addHoop(scene);
   }
 
   hoop.rotateX(hoop.omega.x);

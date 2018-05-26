@@ -1,5 +1,8 @@
-import * as THREE from 'three'
-window.THREE = THREE;
+import * as THREE from 'three';
+import { generateHoop } from './hoopPath';
+
+
+
 
 export const randomHoop = () => {
 
@@ -40,17 +43,10 @@ export const randomHoop = () => {
 
 export const hoopPath = (numHoops) => {
 
-  const radius = 2;
-  const tube = .3;
-  const rsegs = 20;
-  const tsegs = 20;
-  const color = 0xbb9900;
-
-
   const toggleChance= .1;
 
 
-  const omega = new THREE.Vector2(.2,.2);
+  const omega = new THREE.Vector2(.1,.1);
   const tauFactor = .8;
   const spacing = 15;
 
@@ -110,14 +106,8 @@ export const hoopPath = (numHoops) => {
     position.add(velocity);
     positions.push(position.clone());
 
+    const hoop = generateHoop();
 
-    const m = new THREE.MeshLambertMaterial({ color });
-    const g = new THREE.TorusGeometry(radius, tube, rsegs, tsegs);
-    const hoop = new THREE.Mesh(g,m);
-
-    hoop.status = 0;
-    hoop.omega = new THREE.Vector3();
-    hoop.velocity = new THREE.Vector3();
     hoop.position.set(position.x, position.y, position.z);
     hoop.lookAt(positions[i])
     hoops.push(hoop);
