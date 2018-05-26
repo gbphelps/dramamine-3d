@@ -46544,19 +46544,6 @@ dots.forEach(dot => scene.add(dot));
 
 console.log(dots);
 
-// const g = new THREE.Geometry();
-// g.vertices = positions;
-// const m = new THREE.LineDashedMaterial( {
-// 	color: 0xffffff,
-// 	scale: 1,
-// 	dashSize: 3,
-// 	gapSize: 3,
-// } );
-// const line = new THREE.Line(g,m);
-// line.computeLineDistances();
-//
-// scene.add( line );
-
 
 
 //Configure scene.
@@ -46567,16 +46554,6 @@ scene.background = new __WEBPACK_IMPORTED_MODULE_0_three__["Color"]( 0x87cefa );
 scene.add( __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].add(__WEBPACK_IMPORTED_MODULE_3__configs_view_js__["a" /* camera */]) );
 __WEBPACK_IMPORTED_MODULE_3__configs_view_js__["a" /* camera */].position.z = 4;
 
-////BRING IT BACK WHEN DONE
-// const hoops = [];
-//
-// for (var i = 0; i < 20; i++) {
-//
-//   const hoop = randomHoop();
-//   scene.add(hoop);
-//   hoops.push(hoop);
-// }
-
 const baddies = [];
 
 // for (var i = 0; i < 10; i++){
@@ -46585,9 +46562,6 @@ const baddies = [];
 //   baddie.lookAt(sphere.position);
 //   scene.add(baddie);
 // }
-
-
-//updates for each animation frame.
 
 function applySteering(){
   __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].tau = new __WEBPACK_IMPORTED_MODULE_0_three__["Vector2"](0,0);
@@ -46623,6 +46597,7 @@ function onCollision(hoop){
   hoop.material.opacity = .5;
   hoop.material.needsUpdate = true;
   hoop.status = -1;
+  __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].add(Object(__WEBPACK_IMPORTED_MODULE_8__text_alert__["a" /* minus */])());
 }
 
 
@@ -46640,7 +46615,7 @@ function didCollide(toPlane, toCenter, hoop){
 
 
 function updateHoop(hoop){
-  if (hoop.status == -1) return;
+  if (hoop.status === -1 || hoop.status === 1) return;
   const hoopRadius = hoop.geometry.parameters.radius;
   const tubeRadius = hoop.geometry.parameters.tube;
   const sphereRadius = __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].geometry.parameters.radius;
@@ -46665,7 +46640,7 @@ function updateHoop(hoop){
     hoop.status = 1;
     hoop.material.color = new __WEBPACK_IMPORTED_MODULE_0_three__["Color"](0xFFFF00);
     console.log(score);
-    __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].add(Object(__WEBPACK_IMPORTED_MODULE_8__text_alert__["a" /* text */])());
+    __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].add(Object(__WEBPACK_IMPORTED_MODULE_8__text_alert__["b" /* plus */])());
     console.log(__WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].children.slice(1));
   }
 
@@ -46679,7 +46654,9 @@ function updateHoop(hoop){
 function update(){
 
   __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].children.slice(1).forEach(child => {
-    child.rotateY(.08)
+    if (child.frameLife > 70) __WEBPACK_IMPORTED_MODULE_5__player__["a" /* sphere */].remove(child);
+    child.rotateY(.08);
+    child.frameLife++;
   })
 
   applySteering();
@@ -47919,18 +47896,44 @@ const makeBaddie = () => {
 
 
 
-	const g = new __WEBPACK_IMPORTED_MODULE_0_three__["TextGeometry"]( '+1', {
+	const gplus = new __WEBPACK_IMPORTED_MODULE_0_three__["TextGeometry"]( '+1', {
 		font: new __WEBPACK_IMPORTED_MODULE_0_three__["Font"](__WEBPACK_IMPORTED_MODULE_1_three_examples_fonts_helvetiker_regular_typeface_json___default.a),
 		size: .25,
 		height: .1,
 		curveSegments: 12,
 	} );
 
-  g.translate(-.2,-.1,.5)
 
-const m = new __WEBPACK_IMPORTED_MODULE_0_three__["MeshLambertMaterial"]({color: 0xbb9900})
-const text = () => {return new __WEBPACK_IMPORTED_MODULE_0_three__["Mesh"](g, m)};
-/* harmony export (immutable) */ __webpack_exports__["a"] = text;
+  const gminus = new __WEBPACK_IMPORTED_MODULE_0_three__["TextGeometry"]( '-1', {
+		font: new __WEBPACK_IMPORTED_MODULE_0_three__["Font"](__WEBPACK_IMPORTED_MODULE_1_three_examples_fonts_helvetiker_regular_typeface_json___default.a),
+		size: .25,
+		height: .1,
+		curveSegments: 12,
+	} );
+
+  gminus.translate(-.2,-.1,.7);
+  gminus.rotateY(Math.PI);
+  gplus.translate(-.2,-.1,.7);
+  gplus.rotateY(Math.PI);
+
+const yellow = new __WEBPACK_IMPORTED_MODULE_0_three__["MeshLambertMaterial"]({color: 0xbb9900});
+const red = new __WEBPACK_IMPORTED_MODULE_0_three__["MeshLambertMaterial"]({color: 0xff0000});
+
+
+const plus = () => {
+  const object = new __WEBPACK_IMPORTED_MODULE_0_three__["Mesh"](gplus, yellow);
+  object.frameLife = 0;
+  return object;
+};
+/* harmony export (immutable) */ __webpack_exports__["b"] = plus;
+
+
+const minus = () => {
+  const object = new __WEBPACK_IMPORTED_MODULE_0_three__["Mesh"](gminus, red);
+  object.frameLife = 0;
+  return object;
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = minus;
 
 
 

@@ -9,7 +9,7 @@ import { sphere } from './player';
 import { randomHoop, hoopPath } from './hoops';
 import { makeBaddie } from './baddie';
 
-import { text } from './text_alert';
+import { plus, minus } from './text_alert';
 const scene = new THREE.Scene();
 let score = 0;
 
@@ -23,19 +23,6 @@ dots.forEach(dot => scene.add(dot));
 
 console.log(dots);
 
-// const g = new THREE.Geometry();
-// g.vertices = positions;
-// const m = new THREE.LineDashedMaterial( {
-// 	color: 0xffffff,
-// 	scale: 1,
-// 	dashSize: 3,
-// 	gapSize: 3,
-// } );
-// const line = new THREE.Line(g,m);
-// line.computeLineDistances();
-//
-// scene.add( line );
-
 
 
 //Configure scene.
@@ -46,16 +33,6 @@ scene.background = new THREE.Color( 0x87cefa );
 scene.add( sphere.add(camera) );
 camera.position.z = 4;
 
-////BRING IT BACK WHEN DONE
-// const hoops = [];
-//
-// for (var i = 0; i < 20; i++) {
-//
-//   const hoop = randomHoop();
-//   scene.add(hoop);
-//   hoops.push(hoop);
-// }
-
 const baddies = [];
 
 // for (var i = 0; i < 10; i++){
@@ -64,9 +41,6 @@ const baddies = [];
 //   baddie.lookAt(sphere.position);
 //   scene.add(baddie);
 // }
-
-
-//updates for each animation frame.
 
 function applySteering(){
   sphere.tau = new THREE.Vector2(0,0);
@@ -102,6 +76,7 @@ function onCollision(hoop){
   hoop.material.opacity = .5;
   hoop.material.needsUpdate = true;
   hoop.status = -1;
+  sphere.add(minus());
 }
 
 
@@ -119,7 +94,7 @@ function didCollide(toPlane, toCenter, hoop){
 
 
 function updateHoop(hoop){
-  if (hoop.status == -1) return;
+  if (hoop.status === -1 || hoop.status === 1) return;
   const hoopRadius = hoop.geometry.parameters.radius;
   const tubeRadius = hoop.geometry.parameters.tube;
   const sphereRadius = sphere.geometry.parameters.radius;
@@ -144,7 +119,7 @@ function updateHoop(hoop){
     hoop.status = 1;
     hoop.material.color = new THREE.Color(0xFFFF00);
     console.log(score);
-    sphere.add(text());
+    sphere.add(plus());
     console.log(sphere.children.slice(1));
   }
 
@@ -158,7 +133,9 @@ function updateHoop(hoop){
 function update(){
 
   sphere.children.slice(1).forEach(child => {
-    child.rotateY(.08)
+    if (child.frameLife > 70) sphere.remove(child);
+    child.rotateY(.08);
+    child.frameLife++;
   })
 
   applySteering();
