@@ -9,7 +9,10 @@ import { sphere } from './player';
 import { randomHoop } from './hoops';
 import { makeBaddie } from './baddie';
 
+import { text } from './text_alert';
+
 let score = 0;
+
 
 
 //Configure scene.
@@ -31,12 +34,13 @@ for (var i = 0; i < 20; i++) {
 
 const baddies = [];
 
-for (var i = 0; i < 1; i++){
-  const baddie = makeBaddie();
-  baddies.push(baddie);
-  baddie.lookAt(sphere.position);
-  scene.add(baddie);
-}
+// for (var i = 0; i < 10; i++){
+//   const baddie = makeBaddie();
+//   baddies.push(baddie);
+//   baddie.lookAt(sphere.position);
+//   scene.add(baddie);
+// }
+
 
 //updates for each animation frame.
 
@@ -116,6 +120,8 @@ function updateHoop(hoop){
     hoop.status = 1;
     hoop.material.color = new THREE.Color(0xFFFF00);
     console.log(score);
+    sphere.add(text());
+    console.log(sphere.children.slice(1));
   }
 
   hoop.rotateX(hoop.omega.x);
@@ -126,6 +132,10 @@ function updateHoop(hoop){
 
 
 function update(){
+
+  sphere.children.slice(1).forEach(child => {
+    child.rotateY(.08)
+  })
 
   applySteering();
   hoops.forEach(hoop => updateHoop(hoop));

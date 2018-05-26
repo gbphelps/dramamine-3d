@@ -7,7 +7,7 @@ export const makeBaddie = () => {
 
   const color = 0xFF0000;
 
-  const z = (Math.random() + 1) * -30;
+  const z = (Math.random() -.5) * 30;
   const y = (Math.random() -.5) * 30;
   const x = (Math.random() -.5) * 30;
 
