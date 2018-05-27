@@ -32,7 +32,7 @@ body{
   opacity:.5;
 }
 
-#modal-text{
+#game-over{
   position:absolute;
   top: 0px;
   left: 0px;

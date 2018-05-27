@@ -46537,6 +46537,7 @@ const start = () => {
   window.cancelAnimationFrame(run);
   window.removeEventListener('keydown',playAgain);
   document.getElementById('modal').classList.add('hidden');
+  document.getElementById('game-over').classList.add('hidden');
   scene = new __WEBPACK_IMPORTED_MODULE_0_three__["i" /* Scene */]();
   hoopPath = new __WEBPACK_IMPORTED_MODULE_6__hoopPath__["a" /* default */](scene);
   hoops = hoopPath.hoops;
@@ -46557,7 +46558,7 @@ const start = () => {
   run = requestAnimationFrame(update);
 }
 
-document.addEventListener('DOMContentLoaded',start);
+document.addEventListener('DOMContentLoaded',instructions);
 
 
 
@@ -46653,6 +46654,7 @@ function update(){
   if (timer <= 0){
     window.addEventListener('keydown',playAgain);
     document.getElementById('modal').classList.remove('hidden');
+    document.getElementById('game-over').classList.remove('hidden');
     document.getElementById('message').innerHTML = `
     <p> GAME OVER</p>
     <p> SCORE:</p>
@@ -46683,6 +46685,11 @@ function update(){
 
 function playAgain(e){
   (e.keyCode === 89 || e.keyCode === 13) ? start() : console.log('boo');
+}
+
+function instructions(){
+  document.getElementById('instructions').classList.remove('hidden');
+  window.addEventListener('keydown', playAgain);
 }
 
 
