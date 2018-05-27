@@ -47,6 +47,22 @@ body{
   padding-top: 10px;
 }
 
+
+#instructions{
+  position:absolute;
+  font-size: 20px;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  height:500px;
+  width:500px;
+  margin:auto;
+  background:black;
+  color:white;
+  padding-top: 10px;
+}
+
 .hidden{
   display:none;
 }

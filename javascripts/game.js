@@ -19,6 +19,8 @@ const start = () => {
   window.removeEventListener('keydown',playAgain);
   document.getElementById('modal').classList.add('hidden');
   document.getElementById('game-over').classList.add('hidden');
+  document.getElementById('instructions').classList.add('hidden');
+
   scene = new THREE.Scene();
   hoopPath = new HoopPath(scene);
   hoops = hoopPath.hoops;
@@ -136,6 +138,7 @@ function update(){
     window.addEventListener('keydown',playAgain);
     document.getElementById('modal').classList.remove('hidden');
     document.getElementById('game-over').classList.remove('hidden');
+    document.getElementById('instructions').classList.add('hidden');
     document.getElementById('message').innerHTML = `
     <p> GAME OVER</p>
     <p> SCORE:</p>
