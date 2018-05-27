@@ -46526,7 +46526,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-// import { makeBaddie } from './baddie';
 
 
 
@@ -46536,14 +46535,15 @@ let scene, hoopPath, hoops, dots, score, timer, duration, sphere, run;
 
 const start = () => {
   window.cancelAnimationFrame(run);
-
+  window.removeEventListener('keydown',playAgain);
+  document.getElementById('modal').classList.add('hidden');
   scene = new __WEBPACK_IMPORTED_MODULE_0_three__["i" /* Scene */]();
   hoopPath = new __WEBPACK_IMPORTED_MODULE_6__hoopPath__["a" /* default */](scene);
   hoops = hoopPath.hoops;
   dots = hoopPath.dots;
 
   score = 0;
-  timer = 2000;
+  timer = 600;
   duration = 0;
 
   __WEBPACK_IMPORTED_MODULE_1_lodash_values___default()(__WEBPACK_IMPORTED_MODULE_4__configs_lighting__).forEach(light => scene.add(light));
@@ -46556,41 +46556,10 @@ const start = () => {
 
   run = requestAnimationFrame(update);
 }
-start();
-window.start = start;
+
+document.addEventListener('DOMContentLoaded',start);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-////////////////////////////////////////////
-
-
-//Configure scene.
-
-const baddies = [];
-
-// for (var i = 0; i < 10; i++){
-//   const baddie = makeBaddie();
-//   baddies.push(baddie);
-//   baddie.lookAt(sphere.position);
-//   scene.add(baddie);
-// }
 
 function applySteering(){
   sphere.tau = new __WEBPACK_IMPORTED_MODULE_0_three__["m" /* Vector2 */](0,0);
@@ -46682,8 +46651,14 @@ function update(){
 
   document.getElementById('stats').innerHTML = `Score: ${score} Time: ${timer}`
   if (timer <= 0){
+    window.addEventListener('keydown',playAgain);
     document.getElementById('modal').classList.remove('hidden');
-    document.getElementById('message').innerHTML = `<p>GAME OVER</p><p>SCORE:</p><p>${score}</p>`;
+    document.getElementById('message').innerHTML = `
+    <p> GAME OVER</p>
+    <p> SCORE:</p>
+    <p> ${score}</p>
+    <p> Play Again?</p>
+    <p> Y/N</p>`;
     return;
   }
   if (duration === 90){duration=0; hoopPath.addHoop();}
@@ -46701,20 +46676,13 @@ function update(){
   hoops.forEach(hoop => updateHoop(hoop));
   movePlayer();
 
-  // baddies.forEach(baddie => {
-  //   let accel =
-  //     new THREE.Vector3()
-  //       .subVectors(sphere.position, baddie.position)
-  //       .normalize()
-  //       .multiplyScalar(.003);
-  //   baddie.velocity.multiplyScalar(.99).add(accel);
-  //   baddie.position.add(baddie.velocity);
-  //   baddie.lookAt(sphere.position);
-  // });
-
-
   __WEBPACK_IMPORTED_MODULE_3__configs_view_js__["b" /* renderer */].render(scene, __WEBPACK_IMPORTED_MODULE_3__configs_view_js__["a" /* camera */]);
   run = requestAnimationFrame(update);
+}
+
+
+function playAgain(e){
+  (e.keyCode === 89 || e.keyCode === 13) ? start() : console.log('boo');
 }
 
 
@@ -47701,18 +47669,6 @@ const ambientLight = new __WEBPACK_IMPORTED_MODULE_0_three__["a" /* AmbientLight
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_three__ = __webpack_require__(0);
-
-
-
-
-const randColor = () => {
-  return Math.random()*16777216
-}
-
-
-
-
-
 
 
 const radius = .5;

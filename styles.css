@@ -38,13 +38,13 @@ body{
   left: 0px;
   bottom: 0px;
   right: 0px;
-  height:200px;
+  height:350px;
   width:400px;
   margin:auto;
   background:black;
   color:white;
   text-align:center;
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 .hidden{

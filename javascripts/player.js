@@ -1,17 +1,5 @@
 import * as THREE from 'three';
 
-
-
-const randColor = () => {
-  return Math.random()*16777216
-}
-
-
-
-
-
-
-
 const radius = .5;
 const segments = 10;
 const rings = 10;

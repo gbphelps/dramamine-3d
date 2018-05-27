@@ -27,3 +27,24 @@ export const makeBaddie = () => {
 
   return baddie;
 }
+
+///use this script to chase and track
+
+
+// for (var i = 0; i < 10; i++){
+//   const baddie = makeBaddie();
+//   baddies.push(baddie);
+//   baddie.lookAt(sphere.position);
+//   scene.add(baddie);
+// }
+
+// baddies.forEach(baddie => {
+//   let accel =
+//     new THREE.Vector3()
+//       .subVectors(sphere.position, baddie.position)
+//       .normalize()
+//       .multiplyScalar(.003);
+//   baddie.velocity.multiplyScalar(.99).add(accel);
+//   baddie.position.add(baddie.velocity);
+//   baddie.lookAt(sphere.position);
+// });
