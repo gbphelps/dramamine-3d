@@ -46546,11 +46546,11 @@ const start = () => {
   dots = hoopPath.dots;
 
   score = 0;
-  timer = 600;
+  timer = 2000;
   duration = 0;
 
   __WEBPACK_IMPORTED_MODULE_1_lodash_values___default()(__WEBPACK_IMPORTED_MODULE_4__configs_lighting__).forEach(light => scene.add(light));
-  scene.background = new __WEBPACK_IMPORTED_MODULE_0_three__["b" /* Color */]( 0x87cefa );
+  scene.background = new __WEBPACK_IMPORTED_MODULE_0_three__["b" /* Color */]( 0x7ec0ee );
 
 
   sphere = Object(__WEBPACK_IMPORTED_MODULE_5__player__["a" /* newPlayer */])();
@@ -46636,10 +46636,10 @@ function updateHoop(hoop){
   if (didCollide(toPlane, toCenter, hoop)) onCollision(hoop);
 
   if (toPlane < .1 && toCenter < 2) hoop.status = 'pending';
-  //went through hoop! Need to make sure it gets back out.
+  //went through hoop! Need to make sure it gets back out. note the .1 leniency. TODO need to increase.
 
   if (hoop.status === 'pending' && toPlane > .8){
-  //successfully cleared ring
+  //successfully cleared ring, note the .8 is arbitrary
     score += 1;
     hoop.status = 1;
     hoop.material.color = new __WEBPACK_IMPORTED_MODULE_0_three__["b" /* Color */](0x55aa55);
@@ -47814,7 +47814,7 @@ class Hoopie {
 
   dotLine(pos, vel){
     for (let j = 0; j < this.numdots; j++) {
-      const m = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* MeshLambertMaterial */]({ color: 0xFFFFFF });
+      const m = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* MeshLambertMaterial */]({ color: 0xFFFFFF, transparent:true, opacity: .5 });
       const g = new __WEBPACK_IMPORTED_MODULE_0_three__["j" /* SphereGeometry */](.2,8,8);
       const increment = vel.clone().multiplyScalar(1 / this.numdots * j)
       const position = pos.clone().add(increment);

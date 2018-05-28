@@ -96,7 +96,7 @@ export default class Hoopie {
 
   dotLine(pos, vel){
     for (let j = 0; j < this.numdots; j++) {
-      const m = new THREE.MeshLambertMaterial({ color: 0xFFFFFF });
+      const m = new THREE.MeshLambertMaterial({ color: 0xFFFFFF, transparent:true, opacity: .5 });
       const g = new THREE.SphereGeometry(.2,8,8);
       const increment = vel.clone().multiplyScalar(1 / this.numdots * j)
       const position = pos.clone().add(increment);

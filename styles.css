@@ -19,6 +19,7 @@ body{
   font-size: 30px;
   margin: 20px;
   position: absolute;
+  background: #7ec0ee
 }
 
 
@@ -50,13 +51,14 @@ body{
 
 #instructions{
   position:absolute;
-  font-size: 20px;
+  font-size: 16px;
+  text-align: justify;
   top: 0px;
   left: 0px;
   bottom: 0px;
   right: 0px;
   height:500px;
-  width:500px;
+  width:432px;
   margin:auto;
   background:black;
   color:white;
@@ -65,4 +67,17 @@ body{
 
 .hidden{
   display:none;
+}
+
+em {
+  color:yellow;
+  text-transform: uppercase;
+  font-style:normal;
+  font-size: 20px;
+}
+
+.enter{
+  color: white;
+  text-align: center;
+  font-size: 39px;
 }
