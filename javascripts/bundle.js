@@ -46635,7 +46635,7 @@ function updateHoop(hoop){
 
   if (didCollide(toPlane, toCenter, hoop)) onCollision(hoop);
 
-  if (toPlane < .1 && toCenter < 2) hoop.status = 'pending';
+  if (toPlane < .2 && toCenter < 2) hoop.status = 'pending';
   //went through hoop! Need to make sure it gets back out. note the .1 leniency. TODO need to increase.
 
   if (hoop.status === 'pending' && toPlane > .8){
@@ -46666,9 +46666,15 @@ function update(){
     <p> Y/N</p>`;
     return;
   }
-  if (duration === 90){duration=0; hoopPath.addHoop();}
+  if (duration === 60){
+    duration=0;
+    hoopPath.addHoop();
+    if (hoopPath.hoops.length > 200) console.log(hoopPath.hoops.shift());
+  }
   timer--;
   duration++;
+
+
 
 
   sphere.children.slice(1).forEach(child => {
@@ -47744,12 +47750,13 @@ class Hoopie {
     scene,
     toggleChance = .1,
     omega0 = new __WEBPACK_IMPORTED_MODULE_0_three__["m" /* Vector2 */](-.2,0),
-    tauFactor = .5,
+    tauFactor = .03,
     spacing = 15,
     numHoops = 10){
       this.scene = scene;
       this.toggleChance = toggleChance;
       this.omega = omega0;
+      this.rotation = new __WEBPACK_IMPORTED_MODULE_0_three__["m" /* Vector2 */]();
       this.tauFactor = tauFactor;
       this.spacing = spacing;
       this.positions = [new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector3 */]()];
@@ -47788,15 +47795,16 @@ class Hoopie {
 
 
     this.omega.multiplyScalar(.9).add(tau);
+    this.rotation.add(this.omega);
 
     const velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector3 */](0,0, -1 * this.spacing);
-    const rotX = new __WEBPACK_IMPORTED_MODULE_0_three__["d" /* Matrix4 */]().makeRotationX(this.omega.x)
-    const rotY = new __WEBPACK_IMPORTED_MODULE_0_three__["d" /* Matrix4 */]().makeRotationY(this.omega.y);
+    const rotX = new __WEBPACK_IMPORTED_MODULE_0_three__["d" /* Matrix4 */]().makeRotationX(this.rotation.x)
+    const rotY = new __WEBPACK_IMPORTED_MODULE_0_three__["d" /* Matrix4 */]().makeRotationY(this.rotation.y);
 
     velocity.applyMatrix4(rotX).applyMatrix4(rotY);
 
 
-    this.dotLine(lastPos, velocity);
+    this.dotLine(); //lastPos, velocity
 
     const position = lastPos.clone().add(velocity);
     this.positions.push(position.clone());
@@ -47812,7 +47820,9 @@ class Hoopie {
   }
 
 
-  dotLine(pos, vel){
+  dotLine(){
+    const pos = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector3 */]();
+    const vel = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector3 */](0,0,1 * this.spacing);
     for (let j = 0; j < this.numdots; j++) {
       const m = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* MeshLambertMaterial */]({ color: 0xFFFFFF, transparent:true, opacity: .5 });
       const g = new __WEBPACK_IMPORTED_MODULE_0_three__["j" /* SphereGeometry */](.2,8,8);
@@ -47820,8 +47830,8 @@ class Hoopie {
       const position = pos.clone().add(increment);
       const dot = new __WEBPACK_IMPORTED_MODULE_0_three__["e" /* Mesh */](g,m);
       dot.position.set(position.x, position.y, position.z);
-      this.dots.push(dot);
-      this.scene.add(dot);
+      const hoop = this.hoops[this.hoops.length - 1];
+      if (hoop) hoop.add(dot);
     }
   }
 }

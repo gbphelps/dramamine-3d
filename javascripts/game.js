@@ -116,7 +116,7 @@ function updateHoop(hoop){
 
   if (didCollide(toPlane, toCenter, hoop)) onCollision(hoop);
 
-  if (toPlane < .1 && toCenter < 2) hoop.status = 'pending';
+  if (toPlane < .2 && toCenter < 2) hoop.status = 'pending';
   //went through hoop! Need to make sure it gets back out. note the .1 leniency. TODO need to increase.
 
   if (hoop.status === 'pending' && toPlane > .8){
@@ -147,9 +147,15 @@ function update(){
     <p> Y/N</p>`;
     return;
   }
-  if (duration === 90){duration=0; hoopPath.addHoop();}
+  if (duration === 60){
+    duration=0;
+    hoopPath.addHoop();
+    if (hoopPath.hoops.length > 200) console.log(hoopPath.hoops.shift());
+  }
   timer--;
   duration++;
+
+
 
 
   sphere.children.slice(1).forEach(child => {
