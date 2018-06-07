@@ -46591,16 +46591,18 @@ function movePlayer(){
 
 
 function onCollision(hoop){
-  score -= (hoop.status == 1 ? 2 : 1);
+  score -= (hoop.status == 1 ? 10 : 5);
   console.log(score);
   hoop.material.color = new __WEBPACK_IMPORTED_MODULE_0_three__["b" /* Color */](0xFF0000);
   hoop.material.transparent = true;
   hoop.material.opacity = .5;
   hoop.material.needsUpdate = true;
   hoop.status = -1;
-  sphere.add(Object(__WEBPACK_IMPORTED_MODULE_7__text_alert__["a" /* minus */])());
+  // sphere.add(minus());
   timer -= timer < 60 ? timer : 60;
 
+  sphere.material.needsUpdate = true;
+  sphere.material.color = new __WEBPACK_IMPORTED_MODULE_0_three__["b" /* Color */](0xFF0000);
 }
 
 
@@ -46623,6 +46625,7 @@ function updateHoop(hoop){
   const hoopRadius = hoop.geometry.parameters.radius;
   const tubeRadius = hoop.geometry.parameters.tube;
   const sphereRadius = sphere.geometry.parameters.radius;
+  const dotRadius = .2; //TODO
 
   const distanceVec = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector3 */]().subVectors(hoop.position,sphere.position);
   const distance = distanceVec.length();
@@ -46632,6 +46635,16 @@ function updateHoop(hoop){
   const toPlane = Math.abs(distanceVec.dot(normal));
   const toCenter = Math.sqrt(distance*distance - toPlane*toPlane);
 
+  //TODO: DOT SCORING
+  // hoop.children.forEach(child => {
+  //   console.log(child.getWorldPosition);
+  //   if (sphere.position.clone().sub(child.getWorldPosition(new THREE.Vector3())).length() <= sphereRadius - dotRadius ){
+  //     score += 1;
+  //     hoop.remove(child)
+  //   }
+  // });
+
+
 
   if (didCollide(toPlane, toCenter, hoop)) onCollision(hoop);
 
@@ -46640,17 +46653,23 @@ function updateHoop(hoop){
 
   if (hoop.status === 'pending' && toPlane > .8){
   //successfully cleared ring, note the .8 is arbitrary
-    score += 1;
+    const speed = sphere.velocity.length();
+    score += speed > .25 ? 20 : 10;
     hoop.status = 1;
     hoop.material.color = new __WEBPACK_IMPORTED_MODULE_0_three__["b" /* Color */](0x55aa55);
     console.log(score);
-    sphere.add(Object(__WEBPACK_IMPORTED_MODULE_7__text_alert__["b" /* plus */])());
+    // sphere.add(plus()); //TODO
     timer += 120;
   }
 }
 
 
 function update(){
+
+  if (sphere.material.color.getHex() !== 0xFFFFFF){
+    const diff = new __WEBPACK_IMPORTED_MODULE_0_three__["b" /* Color */](0xFFFFFF).sub(sphere.material.color);
+    sphere.material.color.add(diff.multiplyScalar(.01));
+  }
 
   document.getElementById('stats').innerHTML = `Score: ${score} Time: ${timer}`
   if (timer <= 0){
@@ -46676,12 +46695,14 @@ function update(){
 
 
 
-
-  sphere.children.slice(1).forEach(child => {
-    if (child.frameLife > 70) sphere.remove(child);
-    child.rotateY(.08);
-    child.frameLife++;
-  })
+  //TODO text alert
+  // sphere.children.slice(1).forEach(child => {
+  //   if (child.frameLife > 70) sphere.remove(child);
+  //   // child.rotateY(.08); //TODO marquee
+  //   child.material.opacity -= 1/70;
+  //   child.position.y += .002;
+  //   child.frameLife++;
+  // })
 
   applySteering();
   hoops.forEach(hoop => updateHoop(hoop));
@@ -47606,16 +47627,16 @@ const controls = {
 
 
 window.addEventListener('keydown', e=>{
-  if (e.keyCode === 38)   controls.up      = true;
-  if (e.keyCode === 40)   controls.down    = true;
+  if (e.keyCode === 40)   controls.up      = true;
+  if (e.keyCode === 38)   controls.down    = true;
   if (e.keyCode === 37)  controls.left    = true;
   if (e.keyCode === 39)  controls.right   = true;
   if (e.keyCode === 32)   controls.forward = true;
 })
 
 window.addEventListener('keyup', e=>{
-  if (e.keyCode === 38)   controls.up      = false;
-  if (e.keyCode === 40)   controls.down    = false;
+  if (e.keyCode === 40)   controls.up      = false;
+  if (e.keyCode === 38)   controls.down    = false;
   if (e.keyCode === 37)  controls.left    = false;
   if (e.keyCode === 39)  controls.right   = false;
   if (e.keyCode === 32)   controls.forward = false;
@@ -47850,44 +47871,46 @@ class Hoopie {
 
 
 
-	const gplus = new __WEBPACK_IMPORTED_MODULE_0_three__["k" /* TextGeometry */]( '+1', {
+	const gplus = new __WEBPACK_IMPORTED_MODULE_0_three__["k" /* TextGeometry */]( 'SCORE!', {
 		font: new __WEBPACK_IMPORTED_MODULE_0_three__["c" /* Font */](__WEBPACK_IMPORTED_MODULE_1_three_examples_fonts_helvetiker_regular_typeface_json___default.a),
-		size: .25,
+		size: .1,
 		height: .1,
 		curveSegments: 12,
 	} );
 
 
-  const gminus = new __WEBPACK_IMPORTED_MODULE_0_three__["k" /* TextGeometry */]( '-1', {
+  const gminus = new __WEBPACK_IMPORTED_MODULE_0_three__["k" /* TextGeometry */]( 'MISS!', {
 		font: new __WEBPACK_IMPORTED_MODULE_0_three__["c" /* Font */](__WEBPACK_IMPORTED_MODULE_1_three_examples_fonts_helvetiker_regular_typeface_json___default.a),
-		size: .25,
+		size: .1,
 		height: .1,
 		curveSegments: 12,
 	} );
 
-  gminus.translate(-.2,-.1,1);
-  gminus.rotateY(Math.PI);
-  gplus.translate(-.2,-.1,1);
-  gplus.rotateY(Math.PI);
+  gminus.translate(-.2,-.1,.5);
+  // gminus.rotateY(Math.PI); //TODO marquee
+  gplus.translate(-.2,-.1,.5);
+  // gplus.rotateY(Math.PI);
 
-const black = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* MeshLambertMaterial */]({color: 0x000000});
-const red = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* MeshLambertMaterial */]({color: 0xff0000});
+
+
 
 
 const plus = () => {
-  const object = new __WEBPACK_IMPORTED_MODULE_0_three__["e" /* Mesh */](gplus, black);
+	const blue = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* MeshLambertMaterial */]({color: 0x0000FF, transparent:true});
+  const object = new __WEBPACK_IMPORTED_MODULE_0_three__["e" /* Mesh */](gplus, blue);
   object.frameLife = 0;
   return object;
 };
-/* harmony export (immutable) */ __webpack_exports__["b"] = plus;
+/* unused harmony export plus */
 
 
 const minus = () => {
+	const red = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* MeshLambertMaterial */]({color: 0xff0000, transparent:true});
   const object = new __WEBPACK_IMPORTED_MODULE_0_three__["e" /* Mesh */](gminus, red);
   object.frameLife = 0;
   return object;
 };
-/* harmony export (immutable) */ __webpack_exports__["a"] = minus;
+/* unused harmony export minus */
 
 
 

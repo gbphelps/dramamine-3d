@@ -72,16 +72,18 @@ function movePlayer(){
 
 
 function onCollision(hoop){
-  score -= (hoop.status == 1 ? 2 : 1);
+  score -= (hoop.status == 1 ? 10 : 5);
   console.log(score);
   hoop.material.color = new THREE.Color(0xFF0000);
   hoop.material.transparent = true;
   hoop.material.opacity = .5;
   hoop.material.needsUpdate = true;
   hoop.status = -1;
-  sphere.add(minus());
+  // sphere.add(minus());
   timer -= timer < 60 ? timer : 60;
 
+  sphere.material.needsUpdate = true;
+  sphere.material.color = new THREE.Color(0xFF0000);
 }
 
 
@@ -104,6 +106,7 @@ function updateHoop(hoop){
   const hoopRadius = hoop.geometry.parameters.radius;
   const tubeRadius = hoop.geometry.parameters.tube;
   const sphereRadius = sphere.geometry.parameters.radius;
+  const dotRadius = .2; //TODO
 
   const distanceVec = new THREE.Vector3().subVectors(hoop.position,sphere.position);
   const distance = distanceVec.length();
@@ -113,6 +116,16 @@ function updateHoop(hoop){
   const toPlane = Math.abs(distanceVec.dot(normal));
   const toCenter = Math.sqrt(distance*distance - toPlane*toPlane);
 
+  //TODO: DOT SCORING
+  // hoop.children.forEach(child => {
+  //   console.log(child.getWorldPosition);
+  //   if (sphere.position.clone().sub(child.getWorldPosition(new THREE.Vector3())).length() <= sphereRadius - dotRadius ){
+  //     score += 1;
+  //     hoop.remove(child)
+  //   }
+  // });
+
+
 
   if (didCollide(toPlane, toCenter, hoop)) onCollision(hoop);
 
@@ -121,17 +134,23 @@ function updateHoop(hoop){
 
   if (hoop.status === 'pending' && toPlane > .8){
   //successfully cleared ring, note the .8 is arbitrary
-    score += 1;
+    const speed = sphere.velocity.length();
+    score += speed > .25 ? 20 : 10;
     hoop.status = 1;
     hoop.material.color = new THREE.Color(0x55aa55);
     console.log(score);
-    sphere.add(plus());
+    // sphere.add(plus()); //TODO
     timer += 120;
   }
 }
 
 
 function update(){
+
+  if (sphere.material.color.getHex() !== 0xFFFFFF){
+    const diff = new THREE.Color(0xFFFFFF).sub(sphere.material.color);
+    sphere.material.color.add(diff.multiplyScalar(.01));
+  }
 
   document.getElementById('stats').innerHTML = `Score: ${score} Time: ${timer}`
   if (timer <= 0){
@@ -157,12 +176,14 @@ function update(){
 
 
 
-
-  sphere.children.slice(1).forEach(child => {
-    if (child.frameLife > 70) sphere.remove(child);
-    child.rotateY(.08);
-    child.frameLife++;
-  })
+  //TODO text alert
+  // sphere.children.slice(1).forEach(child => {
+  //   if (child.frameLife > 70) sphere.remove(child);
+  //   // child.rotateY(.08); //TODO marquee
+  //   child.material.opacity -= 1/70;
+  //   child.position.y += .002;
+  //   child.frameLife++;
+  // })
 
   applySteering();
   hoops.forEach(hoop => updateHoop(hoop));
