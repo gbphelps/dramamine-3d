@@ -3,7 +3,7 @@ import * as THREE from 'three';
 
 
 export const generateHoop = () => {
-  const radius = 2;
+  const radius = 3;
   const tube = .3;
   const rsegs = 20;
   const tsegs = 20;

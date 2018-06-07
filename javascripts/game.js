@@ -9,12 +9,15 @@ import { newPlayer } from './player';
 import HoopPath from './hoopPath';
 
 import { plus, minus } from './text_alert';
+import { mouseTracker } from './configs/mouse_controls'
 
 
 
 let scene, hoopPath, hoops, dots, score, timer, duration, sphere, run;
 
 const start = () => {
+
+  //mouseTracker(); //TODO TODO TODO
   window.cancelAnimationFrame(run);
   window.removeEventListener('keydown',playAgain);
   document.getElementById('modal').classList.add('hidden');
