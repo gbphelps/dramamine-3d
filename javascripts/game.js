@@ -169,10 +169,10 @@ function update(){
     <p> Y/N</p>`;
     return;
   }
-  if (duration === 60){
+  if (duration === 45){
     duration=0;
     hoopPath.addHoop();
-    if (hoopPath.hoops.length > 200) console.log(hoopPath.hoops.shift());
+    //if (hoopPath.hoops.length > 200) console.log(hoopPath.hoops.shift());
   }
   timer--;
   duration++;
