@@ -13,6 +13,16 @@ import { mouseTracker } from './configs/mouse_controls'
 
 
 
+
+window.addEventListener('resize', ()=>{
+  const newWidth = window.innerWidth;
+  const newHeight = window.innerHeight;
+  renderer.setSize(newWidth, newHeight);
+  camera.aspect = newWidth/newHeight;
+  camera.updateProjectionMatrix();
+})
+
+
 let scene, hoopPath, hoops, dots, score, timer, duration, sphere, run;
 
 const start = () => {
