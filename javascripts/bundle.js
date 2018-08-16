@@ -47668,6 +47668,7 @@ const far = 1000;
 const renderer = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* WebGLRenderer */]();
 renderer.setSize( width, height );
 document.body.appendChild( renderer.domElement );
+window.addEventListener('resize', ()=>{ renderer.setSize( window.innerWidth, window.innerHeight )})
 
 
 const camera = new __WEBPACK_IMPORTED_MODULE_0_three__["g" /* PerspectiveCamera */](viewAngle, aspect, near, far);

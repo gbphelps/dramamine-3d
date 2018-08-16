@@ -11,6 +11,7 @@ const far = 1000;
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( width, height );
 document.body.appendChild( renderer.domElement );
+window.addEventListener('resize', ()=>{ renderer.setSize( window.innerWidth, window.innerHeight )})
 
 
 const camera = new THREE.PerspectiveCamera(viewAngle, aspect, near, far);
