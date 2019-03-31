@@ -23,7 +23,7 @@ window.addEventListener('resize', ()=>{
 })
 
 
-let scene, hoopPath, hoops, dots, score, timer, duration, sphere, run;
+let scene, hoopPath, hoops, dots, score, timer, duration, sphere, run, sky;
 
 const start = () => {
 
@@ -51,6 +51,15 @@ const start = () => {
   scene.add( sphere.add(camera) );
   camera.position.z = 4;
 
+//
+  const g = new THREE.SphereGeometry(1000, 32, 32);
+  const t = new THREE.TextureLoader().load('javascripts/sky.jpg')
+  const m = new THREE.MeshBasicMaterial( {side: THREE.BackSide, map: t } );
+  sky = new THREE.Mesh( g, m );
+  sky.position.z = 0;
+  scene.add(sky);
+
+//
   run = requestAnimationFrame(update);
 }
 
@@ -81,6 +90,7 @@ function movePlayer(){
   //multiply by .99 to simulate friction.
   sphere.velocity.multiplyScalar(.99).add(accel);
   sphere.position.add(sphere.velocity);
+  sky.position.copy(sphere.position);
 }
 
 
