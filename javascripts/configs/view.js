@@ -8,7 +8,7 @@ const aspect = width / height;
 const near = .1;
 const far = 1000;
 
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize( width, height );
 document.body.appendChild( renderer.domElement );
 const camera = new THREE.PerspectiveCamera(viewAngle, aspect, near, far);

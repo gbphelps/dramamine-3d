@@ -47697,7 +47697,7 @@ const aspect = width / height;
 const near = .1;
 const far = 1000;
 
-const renderer = new __WEBPACK_IMPORTED_MODULE_0_three__["q" /* WebGLRenderer */]();
+const renderer = new __WEBPACK_IMPORTED_MODULE_0_three__["q" /* WebGLRenderer */]({ antialias: true });
 renderer.setSize( width, height );
 document.body.appendChild( renderer.domElement );
 const camera = new __WEBPACK_IMPORTED_MODULE_0_three__["i" /* PerspectiveCamera */](viewAngle, aspect, near, far);
