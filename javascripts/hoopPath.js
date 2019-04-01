@@ -92,6 +92,7 @@ export default class Hoopie {
     hoop.lookAt(lastPos)
 
     this.hoops.push(hoop);
+    if (this.hoops.length >= 100) this.scene.remove(this.hoops.shift());
     this.scene.add(hoop);
   }
 

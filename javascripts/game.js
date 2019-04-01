@@ -11,6 +11,17 @@ import HoopPath from './hoopPath';
 import { plus, minus } from './text_alert';
 import { mouseTracker } from './configs/mouse_controls'
 
+// const t = new THREE.TextureLoader().load('javascripts/sky.jpg', instructions);
+const skybox = new THREE.CubeTextureLoader().setPath('javascripts/').load([
+  'sky_4.jpg',
+  'sky_2.jpg',
+
+  'sky_1.jpg',
+  'sky_6.jpg',
+
+  'sky_3.jpg',
+  'sky_5.jpg',
+], instructions)
 
 
 
@@ -30,12 +41,10 @@ const start = () => {
   //mouseTracker(); //TODO TODO TODO
   window.cancelAnimationFrame(run);
   window.removeEventListener('keydown',playAgain);
-  document.getElementById('modal').classList.add('hidden');
-  document.getElementById('game-over').classList.add('hidden');
-  document.getElementById('instructions').classList.add('hidden');
 
   scene = new THREE.Scene();
   hoopPath = new HoopPath(scene);
+  scene.background = skybox;
   hoops = hoopPath.hoops;
   dots = hoopPath.dots;
 
@@ -44,7 +53,6 @@ const start = () => {
   duration = 0;
 
   values(lights).forEach(light => scene.add(light));
-  scene.background = new THREE.Color( 0x7ec0ee );
 
 
   sphere = newPlayer();
@@ -52,18 +60,18 @@ const start = () => {
   camera.position.z = 4;
 
 //
-  const g = new THREE.SphereGeometry(1000, 32, 32);
-  const t = new THREE.TextureLoader().load('javascripts/sky.jpg')
-  const m = new THREE.MeshBasicMaterial( {side: THREE.BackSide, map: t } );
-  sky = new THREE.Mesh( g, m );
-  sky.position.z = 0;
-  scene.add(sky);
+  // const g = new THREE.SphereGeometry(1000, 32, 32);
+  // const m = new THREE.MeshBasicMaterial( {side: THREE.BackSide, map: t } );
+  // sky = new THREE.Mesh( g, m );
+  // sky.position.z = 0;
+  // scene.add(sky);
 
 //
-  run = requestAnimationFrame(update);
 }
 
-document.addEventListener('DOMContentLoaded',instructions);
+//run = requestAnimationFrame(update);
+
+
 
 
 
@@ -90,7 +98,7 @@ function movePlayer(){
   //multiply by .99 to simulate friction.
   sphere.velocity.multiplyScalar(.99).add(accel);
   sphere.position.add(sphere.velocity);
-  sky.position.copy(sphere.position);
+  // sky.position.copy(sphere.position);
 }
 
 
@@ -218,10 +226,19 @@ function update(){
 
 
 function playAgain(e){
-  (e.keyCode === 89 || e.keyCode === 13) ? start() : console.log('boo');
+  if (e.keyCode !== 89 && e.keyCode !== 13) return;
+  if (run) {
+    start();
+  };
+  document.getElementById('modal').classList.add('hidden');
+  document.getElementById('game-over').classList.add('hidden');
+  document.getElementById('instructions').classList.add('hidden');
+  run = requestAnimationFrame(update);
 }
 
 function instructions(){
   document.getElementById('instructions').classList.remove('hidden');
+  start();
+  renderer.render(scene, camera);
   window.addEventListener('keydown', playAgain);
 }
