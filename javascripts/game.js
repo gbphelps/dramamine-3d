@@ -11,7 +11,7 @@ import HoopPath from './hoopPath';
 import { plus, minus } from './text_alert';
 import { mouseTracker } from './configs/mouse_controls';
 
-// const t = new THREE.TextureLoader().load('javascripts/sky.jpg', instructions);
+
 const skybox = new THREE.CubeTextureLoader().setPath('javascripts/').load([
   'sky_4.jpg',
   'sky_2.jpg',
@@ -41,7 +41,6 @@ const start = () => {
 
   //mouseTracker(); //TODO TODO TODO
   window.cancelAnimationFrame(run);
-  window.removeEventListener('keydown',playAgain);
 
   scene = new THREE.Scene();
   scene.background = skybox;
@@ -190,12 +189,7 @@ function update(){
     document.getElementById('modal').classList.remove('hidden');
     document.getElementById('game-over').classList.remove('hidden');
     document.getElementById('instructions').classList.add('hidden');
-    document.getElementById('message').innerHTML = `
-    <p> GAME OVER</p>
-    <p> SCORE:</p>
-    <p> ${score}</p>
-    <p> Play Again?</p>
-    <p> Y/N</p>`;
+    document.getElementById('score').innerHTML = score;
     return;
   }
   if (duration === 45){
@@ -228,17 +222,17 @@ function update(){
 
 function playAgain(e){
   if (e.keyCode !== 89 && e.keyCode !== 13) return;
-  if (run) {
-    start();
-  };
+  if (run) start();
   document.getElementById('modal').classList.add('hidden');
   document.getElementById('game-over').classList.add('hidden');
   document.getElementById('instructions').classList.add('hidden');
+  window.removeEventListener('keydown',playAgain);
   run = requestAnimationFrame(update);
 }
 
 function instructions(){
   document.getElementById('instructions').classList.remove('hidden');
+  document.getElementById('instructions').classList.add('visible');
   start();
   renderer.render(scene, camera);
   window.addEventListener('keydown', playAgain);

@@ -10,6 +10,10 @@ html,body{
   overflow: hidden;
 }
 
+h1{
+  margin: 0;
+  padding: 0;
+}
 
 #title{
   width: 100%;
@@ -23,12 +27,14 @@ html,body{
   position: fixed;
   bottom: 0px;
   left: 0px;
+  color: white;
+  font-weight: 700;
 }
 
 body{
   font-family: 'Work Sans', sans-serif;
   font-size: 30px;
-  font-weight: 700;
+  font-weight: 200;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,22 +59,31 @@ body{
   margin:auto;
   color:white;
   text-align:center;
+  font-weight: 700;
 }
 
 
 #instructions{
   position:absolute;
-  font-size: 20px;
+  font-size: 16px;
   color:white;
   padding-top: 10px;
-  background: black;
+  background: rgba(0,0,0,.8);
   border-radius: 3px;
   padding: 30px;
   width: 500px;
+  transition: opacity .8s, transform .8s;
 }
 
 .hidden{
-  display:none;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(10%)
+}
+
+.visible{
+  opacity: 1;
+  transform: none;
 }
 
 .enter{

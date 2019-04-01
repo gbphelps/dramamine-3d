@@ -11,6 +11,6 @@ const pointLight2 =
 pointLight2.position.set(-10,50,-130);
 
 
-const ambientLight = new THREE.AmbientLight( 0xaaeeff );
+const ambientLight = new THREE.AmbientLight( 0xfff0ee );
 
 export { pointLight1, pointLight2, ambientLight }

@@ -14,24 +14,27 @@
 			<div id='modal-screen'></div>
 		</div>
 
-		<div id='instructions'>
-			<p>Instructions:</p>
-			<p>Fly through as many hoops as you can without hitting them!</p>
-			<p>Keep an eye on the timer.  Extra time is awarded for each success, but you'll lose
-			time for every miss!</p>
-			<br>
-			<p><Controls:</p>
-			<p>Press and hold the arrows keys to rotate the camera.</p>
-			<p>Press and hold spacebar to move forward.</p>
-			<br>
-			<p class='enter'>PRESS ENTER</p>
+		<div id='instructions' class='hidden'>
+			<h1>Instructions</h1>
+			<p>Fly through as many hoops as you can without hitting them! Keep an eye on the timer.
+				Extra time is awarded for each success, but you'll lose time for every hoop you hit!</p>
+
+			<h1>Controls</h1>
+			<p>
+				Press and hold the arrows keys to rotate the camera.
+				Press and hold spacebar to move forward.
+		 </p>
+
+			<h1 style="text-align: center">PRESS ENTER</h1>
 		</div>
 
 		<div id='game-over' class='hidden'>
-			<p id='message'></p>
+			<div>GAME OVER</div>
+			<div>SCORE: <span id="score"></span></div>
+			<div style="height: 180px"></div>
+			<div>Play Again?</div>
+			<div>Y/N</div>
 		</div>
-
-
 
 		<div id='stats'></div>
 	</body>

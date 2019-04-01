@@ -46424,7 +46424,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-// const t = new THREE.TextureLoader().load('javascripts/sky.jpg', instructions);
+
 const skybox = new __WEBPACK_IMPORTED_MODULE_0_three__["c" /* CubeTextureLoader */]().setPath('javascripts/').load([
   'sky_4.jpg',
   'sky_2.jpg',
@@ -46454,7 +46454,6 @@ const start = () => {
 
   //mouseTracker(); //TODO TODO TODO
   window.cancelAnimationFrame(run);
-  window.removeEventListener('keydown',playAgain);
 
   scene = new __WEBPACK_IMPORTED_MODULE_0_three__["k" /* Scene */]();
   scene.background = skybox;
@@ -46603,12 +46602,7 @@ function update(){
     document.getElementById('modal').classList.remove('hidden');
     document.getElementById('game-over').classList.remove('hidden');
     document.getElementById('instructions').classList.add('hidden');
-    document.getElementById('message').innerHTML = `
-    <p> GAME OVER</p>
-    <p> SCORE:</p>
-    <p> ${score}</p>
-    <p> Play Again?</p>
-    <p> Y/N</p>`;
+    document.getElementById('score').innerHTML = score;
     return;
   }
   if (duration === 45){
@@ -46641,17 +46635,17 @@ function update(){
 
 function playAgain(e){
   if (e.keyCode !== 89 && e.keyCode !== 13) return;
-  if (run) {
-    start();
-  };
+  if (run) start();
   document.getElementById('modal').classList.add('hidden');
   document.getElementById('game-over').classList.add('hidden');
   document.getElementById('instructions').classList.add('hidden');
+  window.removeEventListener('keydown',playAgain);
   run = requestAnimationFrame(update);
 }
 
 function instructions(){
   document.getElementById('instructions').classList.remove('hidden');
+  document.getElementById('instructions').classList.add('visible');
   start();
   __WEBPACK_IMPORTED_MODULE_3__configs_view_js__["b" /* renderer */].render(scene, __WEBPACK_IMPORTED_MODULE_3__configs_view_js__["a" /* camera */]);
   window.addEventListener('keydown', playAgain);
@@ -47740,7 +47734,7 @@ const pointLight2 =
 pointLight2.position.set(-10,50,-130);
 
 
-const ambientLight = new __WEBPACK_IMPORTED_MODULE_0_three__["a" /* AmbientLight */]( 0xaaeeff );
+const ambientLight = new __WEBPACK_IMPORTED_MODULE_0_three__["a" /* AmbientLight */]( 0xfff0ee );
 
 
 
