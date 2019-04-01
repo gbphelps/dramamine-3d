@@ -9,7 +9,7 @@ import { newPlayer } from './player';
 import HoopPath from './hoopPath';
 
 import { plus, minus } from './text_alert';
-import { mouseTracker } from './configs/mouse_controls'
+import { mouseTracker } from './configs/mouse_controls';
 
 // const t = new THREE.TextureLoader().load('javascripts/sky.jpg', instructions);
 const skybox = new THREE.CubeTextureLoader().setPath('javascripts/').load([
@@ -34,7 +34,8 @@ window.addEventListener('resize', ()=>{
 })
 
 
-let scene, hoopPath, hoops, dots, score, timer, duration, sphere, run, sky;
+let scene, hoopPath, hoops, dots, score, timer, duration, sphere, run;
+
 
 const start = () => {
 
@@ -43,8 +44,8 @@ const start = () => {
   window.removeEventListener('keydown',playAgain);
 
   scene = new THREE.Scene();
-  hoopPath = new HoopPath(scene);
   scene.background = skybox;
+  hoopPath = new HoopPath(scene);
   hoops = hoopPath.hoops;
   dots = hoopPath.dots;
 

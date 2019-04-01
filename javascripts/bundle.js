@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,14 +70,14 @@
 "use strict";
 /* unused harmony export WebGLRenderTargetCube */
 /* unused harmony export WebGLRenderTarget */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return WebGLRenderer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return WebGLRenderer; });
 /* unused harmony export ShaderLib */
 /* unused harmony export UniformsLib */
 /* unused harmony export UniformsUtils */
 /* unused harmony export ShaderChunk */
 /* unused harmony export FogExp2 */
 /* unused harmony export Fog */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return Scene; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return Scene; });
 /* unused harmony export Sprite */
 /* unused harmony export LOD */
 /* unused harmony export SkinnedMesh */
@@ -116,7 +116,7 @@
 /* unused harmony export AudioLoader */
 /* unused harmony export SpotLightShadow */
 /* unused harmony export SpotLight */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return PointLight; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return PointLight; });
 /* unused harmony export RectAreaLight */
 /* unused harmony export HemisphereLight */
 /* unused harmony export DirectionalLightShadow */
@@ -125,7 +125,7 @@
 /* unused harmony export LightShadow */
 /* unused harmony export Light */
 /* unused harmony export StereoCamera */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return PerspectiveCamera; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return PerspectiveCamera; });
 /* unused harmony export OrthographicCamera */
 /* unused harmony export CubeCamera */
 /* unused harmony export ArrayCamera */
@@ -182,8 +182,8 @@
 /* unused harmony export Line3 */
 /* unused harmony export Euler */
 /* unused harmony export Vector4 */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return Vector3; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return Vector2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return Vector3; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return Vector2; });
 /* unused harmony export Quaternion */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Color; });
 /* unused harmony export ImmediateRenderObject */
@@ -228,11 +228,11 @@
 /* unused harmony export TubeBufferGeometry */
 /* unused harmony export TorusKnotGeometry */
 /* unused harmony export TorusKnotBufferGeometry */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return TorusGeometry; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return TorusGeometry; });
 /* unused harmony export TorusBufferGeometry */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return TextGeometry; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return TextGeometry; });
 /* unused harmony export TextBufferGeometry */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return SphereGeometry; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return SphereGeometry; });
 /* unused harmony export SphereBufferGeometry */
 /* unused harmony export RingGeometry */
 /* unused harmony export RingBufferGeometry */
@@ -260,7 +260,7 @@
 /* unused harmony export PointsMaterial */
 /* unused harmony export MeshPhysicalMaterial */
 /* unused harmony export MeshStandardMaterial */
-/* unused harmony export MeshPhongMaterial */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return MeshPhongMaterial; });
 /* unused harmony export MeshToonMaterial */
 /* unused harmony export MeshNormalMaterial */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return MeshLambertMaterial; });
@@ -46330,7 +46330,7 @@ function LensFlare() {
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(3),
+var Symbol = __webpack_require__(4),
     getRawTag = __webpack_require__(18),
     objectToString = __webpack_require__(19);
 
@@ -46397,113 +46397,6 @@ module.exports = isObjectLike;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var root = __webpack_require__(4);
-
-/** Built-in value references. */
-var Symbol = root.Symbol;
-
-module.exports = Symbol;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var freeGlobal = __webpack_require__(5);
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || Function('return this')();
-
-module.exports = root;
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
-var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
-
-module.exports = freeGlobal;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-module.exports = function(module) {
-	if(!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if(!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-/** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This method is loosely based on
- * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- * @example
- *
- * _.isLength(3);
- * // => true
- *
- * _.isLength(Number.MIN_VALUE);
- * // => false
- *
- * _.isLength(Infinity);
- * // => false
- *
- * _.isLength('3');
- * // => false
- */
-function isLength(value) {
-  return typeof value == 'number' &&
-    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-module.exports = isLength;
-
-
-/***/ }),
-/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -46554,7 +46447,8 @@ window.addEventListener('resize', ()=>{
 })
 
 
-let scene, hoopPath, hoops, dots, score, timer, duration, sphere, run, sky;
+let scene, hoopPath, hoops, dots, score, timer, duration, sphere, run;
+
 
 const start = () => {
 
@@ -46562,9 +46456,9 @@ const start = () => {
   window.cancelAnimationFrame(run);
   window.removeEventListener('keydown',playAgain);
 
-  scene = new __WEBPACK_IMPORTED_MODULE_0_three__["j" /* Scene */]();
-  hoopPath = new __WEBPACK_IMPORTED_MODULE_6__hoopPath__["a" /* default */](scene);
+  scene = new __WEBPACK_IMPORTED_MODULE_0_three__["k" /* Scene */]();
   scene.background = skybox;
+  hoopPath = new __WEBPACK_IMPORTED_MODULE_6__hoopPath__["a" /* default */](scene);
   hoops = hoopPath.hoops;
   dots = hoopPath.dots;
 
@@ -46596,7 +46490,7 @@ const start = () => {
 
 
 function applySteering(){
-  sphere.tau = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector2 */](0,0);
+  sphere.tau = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector2 */](0,0);
   sphere.tau.x += __WEBPACK_IMPORTED_MODULE_2__configs_controls__["a" /* controls */].up    ? .002 : 0;
   sphere.tau.x -= __WEBPACK_IMPORTED_MODULE_2__configs_controls__["a" /* controls */].down  ? .002 : 0;
   sphere.tau.y += __WEBPACK_IMPORTED_MODULE_2__configs_controls__["a" /* controls */].left  ? .002 : 0;
@@ -46609,9 +46503,9 @@ function applySteering(){
 }
 
 function movePlayer(){
-  let accel = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector3 */](0,0,0);
+  let accel = new __WEBPACK_IMPORTED_MODULE_0_three__["p" /* Vector3 */](0,0,0);
   if (__WEBPACK_IMPORTED_MODULE_2__configs_controls__["a" /* controls */].forward) {
-    let direction = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector3 */](0,0,-.003);
+    let direction = new __WEBPACK_IMPORTED_MODULE_0_three__["p" /* Vector3 */](0,0,-.003);
     let forward = new __WEBPACK_IMPORTED_MODULE_0_three__["e" /* Matrix4 */]().extractRotation(sphere.matrix);
     accel = direction.applyMatrix4( forward );
   }
@@ -46659,10 +46553,10 @@ function updateHoop(hoop){
   const sphereRadius = sphere.geometry.parameters.radius;
   const dotRadius = .2; //TODO
 
-  const distanceVec = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector3 */]().subVectors(hoop.position,sphere.position);
+  const distanceVec = new __WEBPACK_IMPORTED_MODULE_0_three__["p" /* Vector3 */]().subVectors(hoop.position,sphere.position);
   const distance = distanceVec.length();
   const rotation = new __WEBPACK_IMPORTED_MODULE_0_three__["e" /* Matrix4 */]().extractRotation(hoop.matrix);
-  const normal = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector3 */](0,0,1).applyMatrix4(rotation);
+  const normal = new __WEBPACK_IMPORTED_MODULE_0_three__["p" /* Vector3 */](0,0,1).applyMatrix4(rotation);
 
   const toPlane = Math.abs(distanceVec.dot(normal));
   const toCenter = Math.sqrt(distance*distance - toPlane*toPlane);
@@ -46762,6 +46656,113 @@ function instructions(){
   __WEBPACK_IMPORTED_MODULE_3__configs_view_js__["b" /* renderer */].render(scene, __WEBPACK_IMPORTED_MODULE_3__configs_view_js__["a" /* camera */]);
   window.addEventListener('keydown', playAgain);
 }
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var root = __webpack_require__(5);
+
+/** Built-in value references. */
+var Symbol = root.Symbol;
+
+module.exports = Symbol;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var freeGlobal = __webpack_require__(6);
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+module.exports = root;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+module.exports = freeGlobal;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This method is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+module.exports = isLength;
 
 
 /***/ }),
@@ -47077,7 +47078,7 @@ module.exports = g;
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(3);
+var Symbol = __webpack_require__(4);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -47189,7 +47190,7 @@ module.exports = isArray;
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(4),
+/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(5),
     stubFalse = __webpack_require__(22);
 
 /** Detect free variable `exports`. */
@@ -47228,7 +47229,7 @@ var isBuffer = nativeIsBuffer || stubFalse;
 
 module.exports = isBuffer;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)(module)))
 
 /***/ }),
 /* 22 */
@@ -47323,7 +47324,7 @@ module.exports = isTypedArray;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(1),
-    isLength = __webpack_require__(7),
+    isLength = __webpack_require__(8),
     isObjectLike = __webpack_require__(2);
 
 /** `Object#toString` result references. */
@@ -47408,7 +47409,7 @@ module.exports = baseUnary;
 /* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module) {var freeGlobal = __webpack_require__(5);
+/* WEBPACK VAR INJECTION */(function(module) {var freeGlobal = __webpack_require__(6);
 
 /** Detect free variable `exports`. */
 var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
@@ -47439,7 +47440,7 @@ var nodeUtil = (function() {
 
 module.exports = nodeUtil;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)(module)))
 
 /***/ }),
 /* 28 */
@@ -47539,7 +47540,7 @@ module.exports = overArg;
 /***/ (function(module, exports, __webpack_require__) {
 
 var isFunction = __webpack_require__(33),
-    isLength = __webpack_require__(7);
+    isLength = __webpack_require__(8);
 
 /**
  * Checks if `value` is array-like. A value is considered array-like if it's
@@ -47702,10 +47703,10 @@ const aspect = width / height;
 const near = .1;
 const far = 1000;
 
-const renderer = new __WEBPACK_IMPORTED_MODULE_0_three__["p" /* WebGLRenderer */]();
+const renderer = new __WEBPACK_IMPORTED_MODULE_0_three__["q" /* WebGLRenderer */]();
 renderer.setSize( width, height );
 document.body.appendChild( renderer.domElement );
-const camera = new __WEBPACK_IMPORTED_MODULE_0_three__["h" /* PerspectiveCamera */](viewAngle, aspect, near, far);
+const camera = new __WEBPACK_IMPORTED_MODULE_0_three__["i" /* PerspectiveCamera */](viewAngle, aspect, near, far);
 
 
 
@@ -47729,13 +47730,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 const pointLight1 =
-  new __WEBPACK_IMPORTED_MODULE_0_three__["i" /* PointLight */](0xFFFFFF);
+  new __WEBPACK_IMPORTED_MODULE_0_three__["j" /* PointLight */](0xFFFFFF);
 
 pointLight1.position.set(10,50,130);
 
 
 const pointLight2 =
-  new __WEBPACK_IMPORTED_MODULE_0_three__["i" /* PointLight */](0xFFFFFF);
+  new __WEBPACK_IMPORTED_MODULE_0_three__["j" /* PointLight */](0xFFFFFF);
 pointLight2.position.set(-10,50,-130);
 
 
@@ -47761,18 +47762,18 @@ const sphereMaterial =
       color: 0xffffff
     });
 
-const newPlayer = () => {
+const newPlayer = (scene) => {
   const sphere = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* Mesh */](
-    new __WEBPACK_IMPORTED_MODULE_0_three__["k" /* SphereGeometry */](
+    new __WEBPACK_IMPORTED_MODULE_0_three__["l" /* SphereGeometry */](
       radius,
       segments,
       rings
     ),
     sphereMaterial
   )
-  sphere.tau = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector2 */](0,0);
-  sphere.omega = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector2 */](0,0);
-  sphere.velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector3 */](0,0,0);
+  sphere.tau = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector2 */](0,0);
+  sphere.omega = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector2 */](0,0);
+  sphere.velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["p" /* Vector3 */](0,0,0);
   return sphere;
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = newPlayer;
@@ -47785,27 +47786,9 @@ const newPlayer = () => {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_three__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game__ = __webpack_require__(3);
 
 
-
-
-const generateHoop = () => {
-  const radius = 3;
-  const tube = .3;
-  const rsegs = 20;
-  const tsegs = 20;
-  const color = 0xbb9900;
-
-  const m = new __WEBPACK_IMPORTED_MODULE_0_three__["g" /* MeshLambertMaterial */]({ color });
-  const g = new __WEBPACK_IMPORTED_MODULE_0_three__["m" /* TorusGeometry */](radius, tube, rsegs, tsegs);
-  const hoop = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* Mesh */](g,m);
-
-  hoop.status = 0;
-  hoop.omega = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector3 */]();
-  hoop.velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector3 */]();
-  return hoop;
-}
-/* unused harmony export generateHoop */
 
 
 
@@ -47814,17 +47797,17 @@ class Hoopie {
   constructor(
     scene,
     toggleChance = .1,
-    omega0 = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector2 */](-.2,0),
+    omega0 = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector2 */](-.2,0),
     tauFactor = .03,
     spacing = 15,
     numHoops = 10){
       this.scene = scene;
       this.toggleChance = toggleChance;
       this.omega = omega0;
-      this.rotation = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector2 */]();
+      this.rotation = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector2 */]();
       this.tauFactor = tauFactor;
       this.spacing = spacing;
-      this.positions = [new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector3 */]()];
+      this.positions = [new __WEBPACK_IMPORTED_MODULE_0_three__["p" /* Vector3 */]()];
       this.numHoops = numHoops;
       this.nav = {
         up:     {on:false, coord:'x', orientation: -1},
@@ -47844,10 +47827,25 @@ class Hoopie {
     }
   }
 
+  generateHoop(){
+    const radius = 3;
+    const tube = .3;
+    const rsegs = 20;
+    const tsegs = 40;
+
+    const m = new __WEBPACK_IMPORTED_MODULE_0_three__["h" /* MeshPhongMaterial */]({ color: 0xaa8844, envMap: this.scene.background });
+    const g = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* TorusGeometry */](radius, tube, rsegs, tsegs);
+    const hoop = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* Mesh */](g,m);
+
+    hoop.status = 0;
+    hoop.omega = new __WEBPACK_IMPORTED_MODULE_0_three__["p" /* Vector3 */]();
+    hoop.velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["p" /* Vector3 */]();
+    return hoop;
+  }
 
 
   addHoop(){
-    const tau = new __WEBPACK_IMPORTED_MODULE_0_three__["n" /* Vector2 */](0,0);
+    const tau = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector2 */](0,0);
     const lastPos = this.positions[this.positions.length - 1];
 
     ['up','down','left','right'].forEach( dir => {
@@ -47862,20 +47860,20 @@ class Hoopie {
     this.omega.multiplyScalar(.9).add(tau);
     this.rotation.add(this.omega);
 
-    const velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector3 */](0,0, -1 * this.spacing);
+    const velocity = new __WEBPACK_IMPORTED_MODULE_0_three__["p" /* Vector3 */](0,0, -1 * this.spacing);
     const rotX = new __WEBPACK_IMPORTED_MODULE_0_three__["e" /* Matrix4 */]().makeRotationX(this.rotation.x)
     const rotY = new __WEBPACK_IMPORTED_MODULE_0_three__["e" /* Matrix4 */]().makeRotationY(this.rotation.y);
 
     velocity.applyMatrix4(rotX).applyMatrix4(rotY);
 
 
-    this.dotLine(); //lastPos, velocity
+    // this.dotLine(); //TODO comment back in for dots
 
     const position = lastPos.clone().add(velocity);
     this.positions.push(position.clone());
 
 
-    const hoop = generateHoop();
+    const hoop = this.generateHoop();
 
     hoop.position.set(position.x, position.y, position.z);
     hoop.lookAt(lastPos)
@@ -47886,20 +47884,20 @@ class Hoopie {
   }
 
 
-  dotLine(){
-    const pos = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector3 */]();
-    const vel = new __WEBPACK_IMPORTED_MODULE_0_three__["o" /* Vector3 */](0,0,1 * this.spacing);
-    for (let j = 0; j < this.numdots; j++) {
-      const m = new __WEBPACK_IMPORTED_MODULE_0_three__["g" /* MeshLambertMaterial */]({ color: 0xFFFFFF, transparent:true, opacity: .5 });
-      const g = new __WEBPACK_IMPORTED_MODULE_0_three__["k" /* SphereGeometry */](.2,8,8);
-      const increment = vel.clone().multiplyScalar(1 / this.numdots * j)
-      const position = pos.clone().add(increment);
-      const dot = new __WEBPACK_IMPORTED_MODULE_0_three__["f" /* Mesh */](g,m);
-      dot.position.set(position.x, position.y, position.z);
-      const hoop = this.hoops[this.hoops.length - 1];
-      if (hoop) hoop.add(dot);
-    }
-  }
+  // dotLine(){
+  //   const pos = new THREE.Vector3();
+  //   const vel = new THREE.Vector3(0,0,1 * this.spacing);
+  //   for (let j = 0; j < this.numdots; j++) {
+  //     const m = new THREE.MeshLambertMaterial({ color: 0xFFFFFF, transparent:true, opacity: .5 });
+  //     const g = new THREE.SphereGeometry(.2,8,8);
+  //     const increment = vel.clone().multiplyScalar(1 / this.numdots * j)
+  //     const position = pos.clone().add(increment);
+  //     const dot = new THREE.Mesh(g,m);
+  //     dot.position.set(position.x, position.y, position.z);
+  //     const hoop = this.hoops[this.hoops.length - 1];
+  //     if (hoop) hoop.add(dot);
+  //   }
+  // }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Hoopie;
 
@@ -47916,7 +47914,7 @@ class Hoopie {
 
 
 
-	const gplus = new __WEBPACK_IMPORTED_MODULE_0_three__["l" /* TextGeometry */]( 'SCORE!', {
+	const gplus = new __WEBPACK_IMPORTED_MODULE_0_three__["m" /* TextGeometry */]( 'SCORE!', {
 		font: new __WEBPACK_IMPORTED_MODULE_0_three__["d" /* Font */](__WEBPACK_IMPORTED_MODULE_1_three_examples_fonts_helvetiker_regular_typeface_json___default.a),
 		size: .1,
 		height: .1,
@@ -47924,7 +47922,7 @@ class Hoopie {
 	} );
 
 
-  const gminus = new __WEBPACK_IMPORTED_MODULE_0_three__["l" /* TextGeometry */]( 'MISS!', {
+  const gminus = new __WEBPACK_IMPORTED_MODULE_0_three__["m" /* TextGeometry */]( 'MISS!', {
 		font: new __WEBPACK_IMPORTED_MODULE_0_three__["d" /* Font */](__WEBPACK_IMPORTED_MODULE_1_three_examples_fonts_helvetiker_regular_typeface_json___default.a),
 		size: .1,
 		height: .1,

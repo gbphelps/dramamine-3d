@@ -9,7 +9,7 @@ const sphereMaterial =
       color: 0xffffff
     });
 
-export const newPlayer = () => {
+export const newPlayer = (scene) => {
   const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(
       radius,

@@ -1,23 +1,6 @@
 import * as THREE from 'three';
+import { scene } from './game';
 
-
-
-export const generateHoop = () => {
-  const radius = 3;
-  const tube = .3;
-  const rsegs = 20;
-  const tsegs = 20;
-  const color = 0xbb9900;
-
-  const m = new THREE.MeshLambertMaterial({ color });
-  const g = new THREE.TorusGeometry(radius, tube, rsegs, tsegs);
-  const hoop = new THREE.Mesh(g,m);
-
-  hoop.status = 0;
-  hoop.omega = new THREE.Vector3();
-  hoop.velocity = new THREE.Vector3();
-  return hoop;
-}
 
 
 
@@ -55,6 +38,21 @@ export default class Hoopie {
     }
   }
 
+  generateHoop(){
+    const radius = 3;
+    const tube = .3;
+    const rsegs = 20;
+    const tsegs = 40;
+
+    const m = new THREE.MeshPhongMaterial({ color: 0xaa8844, envMap: this.scene.background });
+    const g = new THREE.TorusGeometry(radius, tube, rsegs, tsegs);
+    const hoop = new THREE.Mesh(g,m);
+
+    hoop.status = 0;
+    hoop.omega = new THREE.Vector3();
+    hoop.velocity = new THREE.Vector3();
+    return hoop;
+  }
 
 
   addHoop(){
@@ -80,13 +78,13 @@ export default class Hoopie {
     velocity.applyMatrix4(rotX).applyMatrix4(rotY);
 
 
-    this.dotLine(); //lastPos, velocity
+    // this.dotLine(); //TODO comment back in for dots
 
     const position = lastPos.clone().add(velocity);
     this.positions.push(position.clone());
 
 
-    const hoop = generateHoop();
+    const hoop = this.generateHoop();
 
     hoop.position.set(position.x, position.y, position.z);
     hoop.lookAt(lastPos)
@@ -97,18 +95,18 @@ export default class Hoopie {
   }
 
 
-  dotLine(){
-    const pos = new THREE.Vector3();
-    const vel = new THREE.Vector3(0,0,1 * this.spacing);
-    for (let j = 0; j < this.numdots; j++) {
-      const m = new THREE.MeshLambertMaterial({ color: 0xFFFFFF, transparent:true, opacity: .5 });
-      const g = new THREE.SphereGeometry(.2,8,8);
-      const increment = vel.clone().multiplyScalar(1 / this.numdots * j)
-      const position = pos.clone().add(increment);
-      const dot = new THREE.Mesh(g,m);
-      dot.position.set(position.x, position.y, position.z);
-      const hoop = this.hoops[this.hoops.length - 1];
-      if (hoop) hoop.add(dot);
-    }
-  }
+  // dotLine(){
+  //   const pos = new THREE.Vector3();
+  //   const vel = new THREE.Vector3(0,0,1 * this.spacing);
+  //   for (let j = 0; j < this.numdots; j++) {
+  //     const m = new THREE.MeshLambertMaterial({ color: 0xFFFFFF, transparent:true, opacity: .5 });
+  //     const g = new THREE.SphereGeometry(.2,8,8);
+  //     const increment = vel.clone().multiplyScalar(1 / this.numdots * j)
+  //     const position = pos.clone().add(increment);
+  //     const dot = new THREE.Mesh(g,m);
+  //     dot.position.set(position.x, position.y, position.z);
+  //     const hoop = this.hoops[this.hoops.length - 1];
+  //     if (hoop) hoop.add(dot);
+  //   }
+  // }
 }
