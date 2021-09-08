@@ -104,17 +104,16 @@ function movePlayer(){
 
 function onCollision(hoop){
   score -= (hoop.status == 1 ? 10 : 5);
-  console.log(score);
   hoop.material.color = new THREE.Color(0xFF0000);
   hoop.material.transparent = true;
   hoop.material.opacity = .5;
   hoop.material.needsUpdate = true;
-  hoop.status = -1;
-  // sphere.add(minus());
-  timer -= timer < 60 ? timer : 60;
 
+  hoop.status = -1;
+  timer -= timer < 60 ? timer : 60;
   sphere.material.needsUpdate = true;
   sphere.material.color = new THREE.Color(0xFF0000);
+  hoopPath.onEncounter(hoop.hoopId);
 }
 
 
@@ -134,10 +133,6 @@ function didCollide(toPlane, toCenter, hoop){
 
 function updateHoop(hoop){
   if (hoop.status === -1 || hoop.status === 1) return;
-  const hoopRadius = hoop.geometry.parameters.radius;
-  const tubeRadius = hoop.geometry.parameters.tube;
-  const sphereRadius = sphere.geometry.parameters.radius;
-  const dotRadius = .2; //TODO
 
   const distanceVec = new THREE.Vector3().subVectors(hoop.position,sphere.position);
   const distance = distanceVec.length();
@@ -147,20 +142,14 @@ function updateHoop(hoop){
   const toPlane = Math.abs(distanceVec.dot(normal));
   const toCenter = Math.sqrt(distance*distance - toPlane*toPlane);
 
-  //TODO: DOT SCORING
-  // hoop.children.forEach(child => {
-  //   console.log(child.getWorldPosition);
-  //   if (sphere.position.clone().sub(child.getWorldPosition(new THREE.Vector3())).length() <= sphereRadius - dotRadius ){
-  //     score += 1;
-  //     hoop.remove(child)
-  //   }
-  // });
-
-
-
   if (didCollide(toPlane, toCenter, hoop)) onCollision(hoop);
 
-  if (toPlane < .2 && toCenter < 2) hoop.status = 'pending';
+  if (toPlane < .2 && toCenter < 2) {
+    hoopPath.onEncounter(hoop.hoopId);
+    hoop.status = 'pending';
+  }
+  
+   
   //went through hoop! Need to make sure it gets back out. note the .1 leniency. TODO need to increase.
 
   if (hoop.status === 'pending' && toPlane > .8){
@@ -169,8 +158,6 @@ function updateHoop(hoop){
     score += speed > .25 ? 20 : 10;
     hoop.status = 1;
     hoop.material.color = new THREE.Color(0x55aa55);
-    console.log(score);
-    // sphere.add(plus()); //TODO
     timer += 120;
   }
 }
@@ -192,24 +179,9 @@ function update(){
     document.getElementById('score').innerHTML = score;
     return;
   }
-  if (duration === 45){
-    duration=0;
-    hoopPath.addHoop();
-    //if (hoopPath.hoops.length > 200) console.log(hoopPath.hoops.shift());
-  }
+
   timer--;
   duration++;
-
-
-
-  //TODO text alert
-  // sphere.children.slice(1).forEach(child => {
-  //   if (child.frameLife > 70) sphere.remove(child);
-  //   // child.rotateY(.08); //TODO marquee
-  //   child.material.opacity -= 1/70;
-  //   child.position.y += .002;
-  //   child.frameLife++;
-  // })
 
   applySteering();
   hoops.forEach(hoop => updateHoop(hoop));

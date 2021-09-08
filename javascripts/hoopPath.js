@@ -11,7 +11,8 @@ export default class Hoopie {
     omega0 = new THREE.Vector2(-.2,0),
     tauFactor = .03,
     spacing = 15,
-    numHoops = 10){
+    numHoops = 100){
+      this.hoopCounter = 0;
       this.scene = scene;
       this.toggleChance = toggleChance;
       this.omega = omega0;
@@ -32,9 +33,40 @@ export default class Hoopie {
       this.initializeHoops();
   }
 
-  initializeHoops(scene){
+  initializeHoops(){
     for (let i = 0; i < this.numHoops; i++) {
       this.addHoop();
+    }
+  }
+
+
+  findHoop(hoopId) {
+    let floor = 0;
+    let ceil = this.hoops.length - 1;
+
+    while (floor < ceil) {
+      const idx = Math.floor((floor+ceil)/2);
+      if (this.hoops[idx].hoopId === hoopId) return idx;
+      if (hoopId < this.hoops[idx].hoopId){
+        ceil = idx - 1;
+      } else {
+        floor = idx + 1;
+      }
+    }
+    if (this.hoops[floor].hoopId === hoopId) return floor;
+    return -1;
+  }
+
+  onEncounter(hoopId) {
+    const index = this.findHoop(hoopId);
+    if (index === -1) return;
+
+    const hoopsToAdd = this.numHoops - (this.hoops.length - 1 - index);
+
+    for (let i=0; i<hoopsToAdd; i++) this.addHoop();
+    while (this.hoops.length > this.numHoops*2) {
+      const trashHoop = this.hoops.shift();
+      this.scene.remove(trashHoop);
     }
   }
 
@@ -51,6 +83,8 @@ export default class Hoopie {
     hoop.status = 0;
     hoop.omega = new THREE.Vector3();
     hoop.velocity = new THREE.Vector3();
+    hoop.hoopId = ++this.hoopCounter;
+
     return hoop;
   }
 
@@ -90,7 +124,6 @@ export default class Hoopie {
     hoop.lookAt(lastPos)
 
     this.hoops.push(hoop);
-    if (this.hoops.length >= 100) this.scene.remove(this.hoops.shift());
     this.scene.add(hoop);
   }
 
